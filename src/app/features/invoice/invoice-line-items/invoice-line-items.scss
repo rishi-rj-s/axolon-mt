@@ -1,0 +1,56 @@
+.line-items-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+::ng-deep {
+  .p-datatable {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .p-datatable-wrapper {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+}
+
+/* Make inputs look like editable table cells */
+::ng-deep {
+  .p-inputtext, 
+  .p-select,
+  .p-inputnumber-input {
+    border: 1px solid transparent;
+    border-radius: 0;
+    box-shadow: none !important;
+    font-size: 13px !important;
+    height: 28px !important;
+    width: 100%;
+    background: transparent;
+  }
+
+  /* Only show border on hover/focus to indicate editability */
+  .p-inputtext:not([readonly]):hover, 
+  .p-select:hover,
+  .p-inputnumber-input:not([readonly]):hover {
+    border: 1px solid #ced4da;
+    background: white;
+  }
+
+  .p-inputtext:focus,
+  .p-select.p-select-open,
+  .p-inputnumber-input:focus {
+    border: 1px solid #0b5ed7 !important;
+    background: white;
+  }
+
+  /* Styling for the disabled expense field */
+  .expense-field .p-inputnumber-input {
+    color: #b91c1c !important; /* Tailwind text-red-700 equivalent */
+    font-weight: 600;
+    background-color: rgba(254, 226, 226, 0.5); /* light red bg */
+    border: 1px solid rgba(252, 165, 165, 0.5);
+  }
+}

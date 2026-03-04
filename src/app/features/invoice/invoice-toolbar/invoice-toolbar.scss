@@ -1,0 +1,35 @@
+::ng-deep {
+  .compact-toolbar {
+    background: transparent;
+    border: none;
+    padding: 0.25rem 0.5rem !important;
+
+    .p-toolbar-group-start {
+      .page-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+    }
+  }
+
+  .nav-group {
+    display: flex;
+    background: #e9ecef;
+    border-radius: 4px;
+    padding: 2px;
+    
+    .p-button {
+      padding: 0.25rem;
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  .find-input {
+    input {
+      height: 28px;
+      width: 150px;
+    }
+  }
+}

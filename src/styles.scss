@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Desktop-App Aesthetic Resets */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Desktop apps don't typically have a global scrollbar; internal panes scroll instead */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8f9fa; /* Light grey backdrop */
+  font-size: 13px; /* Slightly smaller font for density */
+  color: #333;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Loader Animation Keyframes */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom styles for PrimeNG compact density fixes if needed */
+.p-component {
+  font-size: 13px;
+}

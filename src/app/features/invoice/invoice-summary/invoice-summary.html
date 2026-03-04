@@ -1,0 +1,36 @@
+<div class="summary-card" [formGroup]="form()">
+  <div class="summary-row">
+    <label>Subtotal</label>
+    <div class="value">{{ form().get('subtotal')?.value | number:'1.2-2' }}</div>
+  </div>
+
+  <div class="summary-row">
+    <label>Discount %</label>
+    <div class="value input-wrapper">
+      <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"></p-inputNumber>
+    </div>
+  </div>
+
+  <div class="summary-row">
+    <label>Discount Amount</label>
+    <div class="value">{{ form().get('discountAmount')?.value | number:'1.2-2' }}</div>
+  </div>
+
+  <div class="summary-row">
+    <label>Tax</label>
+    <div class="value">{{ form().get('tax')?.value | number:'1.2-2' }}</div>
+  </div>
+
+  <!-- New Feature: Total Expense Input -->
+  <div class="summary-row highlight-expense">
+    <label>Total Expense</label>
+    <div class="value input-wrapper">
+      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+    </div>
+  </div>
+
+  <div class="summary-row total-row">
+    <label>Total</label>
+    <div class="value">{{ form().get('total')?.value | number:'1.2-2' }}</div>
+  </div>
+</div>

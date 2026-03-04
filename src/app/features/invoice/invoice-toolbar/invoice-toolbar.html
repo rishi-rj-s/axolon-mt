@@ -1,0 +1,27 @@
+<p-toolbar styleClass="compact-toolbar p-0">
+  <div class="p-toolbar-group-start">
+    <label class="page-title">Proforma Invoice</label>
+  </div>
+  
+  <div class="p-toolbar-group-center">
+    <!-- Center tools here if any -->
+  </div>
+  
+  <div class="p-toolbar-group-end gap-2">
+    <!-- Pagination mimic -->
+    <div class="nav-group">
+      <p-button icon="pi pi-angle-double-left" [text]="true" size="small" (click)="first.emit()"></p-button>
+      <p-button icon="pi pi-angle-left" [text]="true" size="small" (click)="prev.emit()"></p-button>
+      <p-button icon="pi pi-angle-right" [text]="true" size="small" (click)="next.emit()"></p-button>
+      <p-button icon="pi pi-angle-double-right" [text]="true" size="small" (click)="last.emit()"></p-button>
+    </div>
+    
+    <span class="p-input-icon-left find-input">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Find" class="p-inputtext-sm" />
+    </span>
+    
+    <p-button icon="pi pi-paperclip" label="Attach File" size="small" [outlined]="true"></p-button>
+    <p-button icon="pi pi-align-justify" [outlined]="true" size="small"></p-button>
+  </div>
+</p-toolbar>

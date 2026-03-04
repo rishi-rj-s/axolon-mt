@@ -1,0 +1,76 @@
+<div class="header-grid" [formGroup]="form()">
+  
+  <div class="field-item">
+    <label class="blue-label" for="docId">Doc ID</label>
+    <input pInputText id="docId" formControlName="docId" />
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="voucherNumber">Voucher Number</label>
+    <input pInputText id="voucherNumber" formControlName="voucherNumber" />
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="date">Date</label>
+    <p-datepicker id="date" formControlName="date" dateFormat="dd-MM-yy"></p-datepicker>
+  </div>
+  
+  <div class="field-item">
+    <label class="blue-label" for="dueDate">Due Date</label>
+    <p-datepicker id="dueDate" formControlName="dueDate" dateFormat="dd-MM-yy"></p-datepicker>
+  </div>
+
+  <div class="field-item vendor">
+    <label class="blue-label" for="vendorId">Vendor</label>
+    <div class="vendor-inputs">
+      <p-select id="vendorId" formControlName="vendorId" 
+        [options]="(vendors$ | async) || []" optionLabel="name" optionValue="id" 
+        placeholder="Select Vendor" [filter]="true"></p-select>
+      <!-- We use a disabled text box just to mimic the view in the screenshot of vendor side values if we had any logic to duplicate name -->
+      <input pInputText id="vendorName" formControlName="vendorName" placeholder="Vendor Name Auto" />
+    </div>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="reference">Reference</label>
+    <input pInputText id="reference" formControlName="reference" />
+  </div>
+  
+  <div class="field-item">
+    <label class="blue-label" for="reference2">Reference 2</label>
+    <input pInputText id="reference2" formControlName="reference2" />
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="buyer">Buyer</label>
+    <p-select id="buyer" formControlName="buyer" [options]="(buyers$ | async) || []" placeholder="Select"></p-select>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="shippingMethod">Shipping Method</label>
+    <p-select id="shippingMethod" formControlName="shippingMethod" [options]="(methods$ | async) || []" placeholder="Select"></p-select>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="paymentTerm">Payment Term</label>
+    <p-select id="paymentTerm" formControlName="paymentTerm" [options]="(terms$ | async) || []" placeholder="Select"></p-select>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="taxGroup">Tax Group</label>
+    <p-select id="taxGroup" formControlName="taxGroup" [options]="(taxGroups$ | async) || []" optionLabel="name" optionValue="code" placeholder="Select"></p-select>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="currency">Currency / Rate</label>
+    <div class="currency-inputs">
+      <p-select class="currency-drop" id="currency" formControlName="currency" [options]="(currencies$ | async) || []" optionLabel="code" optionValue="code"></p-select>
+      <input class="currency-rate" pInputText formControlName="exchangeRate" type="number" />
+    </div>
+  </div>
+
+  <div class="field-item">
+    <label class="blue-label" for="vendorRef">Vendor Ref</label>
+    <input pInputText id="vendorRef" formControlName="vendorRef" />
+  </div>
+</div>

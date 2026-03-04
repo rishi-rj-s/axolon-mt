@@ -1,0 +1,528 @@
+/* ============================================================
+   LOGIN COMPONENT STYLES
+   Left brand panel: untouched.
+   Right form panel: redesigned with cohesive colour system.
+   ============================================================ */
+
+/* --- Tokens (derived from the left-side gradient) --- */
+$blue-primary: #0b5ed7;
+$blue-dark: #173b75;
+$blue-light: #93c5fd;
+$blue-bg-tint: #eef4fc;
+$text-primary: #0f172a;
+$text-secondary: #475569;
+$text-muted: #94a3b8;
+$border-default: #cbd5e1;
+$border-light: #e2e8f0;
+$surface: #f8fafc;
+$white: #ffffff;
+$error: #dc2626;
+
+:host {
+  display: block;
+  min-height: 100vh;
+  width: 100vw;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: $white;
+}
+
+/* ======================== LAYOUT ======================== */
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =================== LEFT BRAND PANEL =================== */
+.brand-section {
+  display: none;
+  flex: 1;
+  background: linear-gradient(135deg, $blue-primary 0%, $blue-dark 100%);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -15%;
+    left: -5%;
+    width: 35vw;
+    height: 35vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(147,197,253,0.15) 0%, transparent 70%);
+  }
+}
+
+@media (min-width: 992px) {
+  .brand-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-brand {
+    display: none !important;
+  }
+}
+
+.brand-glass {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 450px;
+  color: white;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  letter-spacing: -1px;
+  color: #fff;
+}
+
+.brand-accent {
+  color: $blue-light;
+  font-weight: 300;
+}
+
+.brand-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 2.5rem;
+}
+
+.feature-pills {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  .pill {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+
+/* =================== RIGHT FORM PANEL =================== */
+.form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: $white;
+}
+
+.login-panel {
+  width: 100%;
+  max-width: 420px;
+  animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mobile brand (only visible < 992px) */
+.mobile-brand {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: $blue-primary;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.75rem;
+
+  span {
+    color: $blue-dark;
+    font-weight: 300;
+  }
+}
+
+.panel-header {
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0 0 0.35rem 0;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 0.925rem;
+    margin: 0;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $text-secondary;
+  }
+}
+
+/* ---- PrimeNG Input Overrides ---- */
+
+/* Username field with right-side icon */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+
+  ::ng-deep .p-inputtext {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem; // extra right padding for icon
+    border-radius: 10px;
+    border: 1.5px solid $border-default;
+    font-size: 0.95rem;
+    background: $surface;
+    color: $text-primary;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:hover {
+      border-color: $text-muted;
+    }
+
+    &:focus {
+      border-color: $blue-primary;
+      background: $white;
+      box-shadow: 0 0 0 3px rgba($blue-primary, 0.12);
+      outline: none;
+    }
+  }
+
+  .field-icon {
+    position: absolute;
+    right: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    font-size: 0.95rem;
+    pointer-events: none; // won't block clicks or selection
+  }
+}
+
+/* p-password wrapper */
+::ng-deep p-password {
+  .p-password {
+    width: 100%;
+    position: relative;
+  }
+
+  .p-password-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem; // matches username field padding
+    border-radius: 10px;
+    border: 1.5px solid $border-default;
+    font-size: 0.95rem;
+    background: $surface;
+    color: $text-primary;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:hover {
+      border-color: $text-muted;
+    }
+
+    &:focus {
+      border-color: $blue-primary;
+      background: $white;
+      box-shadow: 0 0 0 3px rgba($blue-primary, 0.12);
+      outline: none;
+    }
+  }
+
+  /* Eye toggle icon — actual PrimeNG v20 classes (SVGs, not buttons) */
+  .p-password-toggle-mask-icon {
+    position: absolute !important;
+    right: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    width: 0.95rem;
+    height: 0.95rem;
+    cursor: pointer;
+  }
+}
+
+/* Validation error */
+.error-text {
+  color: $error;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+/* Remember me + Forgot password row */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $text-secondary;
+
+    label {
+      cursor: pointer;
+      font-weight: 400;
+      user-select: none;
+    }
+  }
+
+  .forgot-link {
+    color: $blue-primary;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+::ng-deep .p-checkbox .p-checkbox-box {
+  border-radius: 5px;
+  border: 1.5px solid $border-default;
+  transition: all 0.15s ease;
+  width: 1.15rem;
+  height: 1.15rem;
+
+  &.p-highlight {
+    background: $blue-primary;
+    border-color: $blue-primary;
+  }
+}
+
+/* ---- Sign In Button ---- */
+::ng-deep .signin-btn {
+  background: linear-gradient(135deg, $blue-primary 0%, $blue-dark 100%) !important;
+  border: none !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba($blue-primary, 0.2);
+  color: $white !important;
+
+  .p-button-label {
+    font-weight: 600;
+    color: $white !important;
+  }
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba($blue-primary, 0.35) !important;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba($blue-primary, 0.2) !important;
+  }
+
+  /* Disabled state — visible but muted */
+  &:disabled,
+  &.p-disabled {
+    background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%) !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+    opacity: 1 !important; // keep it visible, just muted colors
+    transform: none !important;
+
+    .p-button-label {
+      color: $white !important;
+    }
+  }
+}
+
+/* ---- Divider ---- */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: $text-muted;
+  font-size: 0.825rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid $border-light;
+  }
+
+  span {
+    padding: 0 1rem;
+  }
+}
+
+/* ---- Social Login (native buttons for full control) ---- */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.social-btn {
+  width: 56px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1.5px solid $border-light;
+  background: $white;
+  color: $text-secondary;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 1.15rem;
+
+  &:hover {
+    border-color: $blue-primary;
+    color: $blue-primary;
+    background: $blue-bg-tint;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba($blue-primary, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* ---- Footer Link ---- */
+.footer-text {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: $text-muted;
+
+  .create-link {
+    color: $blue-primary;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+
+/* =================== LOADER OVERLAY =================== */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $blue-bg-tint 0%, $white 100%);
+  z-index: 9999;
+}
+
+.loader-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+::ng-deep .custom-spinner .p-progress-spinner-circle {
+  stroke: $blue-primary !important;
+  animation: p-progress-spinner-dash 1.5s ease-in-out infinite;
+}
+
+.loader-brand {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: $blue-primary;
+  letter-spacing: -0.5px;
+  margin-top: -15px;
+}
+
+.pulse-text {
+  margin-top: 1.5rem;
+  color: $text-secondary;
+  font-weight: 500;
+  font-size: 0.95rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+/* =================== ANIMATIONS =================== */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
