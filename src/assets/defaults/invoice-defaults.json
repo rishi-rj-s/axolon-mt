@@ -1,0 +1,67 @@
+{
+  "docId": "IMPI",
+  "voucherNumber": "IMPI00001",
+  "date": "2026-01-20T00:00:00.000Z",
+  "vendorId": "210101A0007",
+  "vendorName": "ABDUL MALIK",
+  "reference": "",
+  "reference2": "",
+  "buyer": "",
+  "shippingMethod": "",
+  "paymentTerm": "P-10003",
+  "taxGroup": "TAX01",
+  "currency": "AED",
+  "exchangeRate": 1.00,
+  "dueDate": "2026-02-19T00:00:00.000Z",
+  "vendorRef": "",
+  "note": "",
+  "lineItems": [
+    {
+      "rowNumber": 1,
+      "itemCode": "010101040009",
+      "description": "AGGREGATE",
+      "unit": "MT",
+      "quantity": 10,
+      "price": 6.00,
+      "amount": 60.00,
+      "expense": 0.00
+    },
+    {
+      "rowNumber": 2,
+      "itemCode": "010102010008",
+      "description": "CARRO JOINT TILE GROUT CJS 60",
+      "unit": "BAG",
+      "quantity": 20,
+      "price": 3.50,
+      "amount": 70.00,
+      "expense": 0.00
+    },
+    {
+      "rowNumber": 3,
+      "itemCode": "010102050001",
+      "description": "MASTERTİLE 30 WHITE",
+      "unit": "BAG",
+      "quantity": 6,
+      "price": 14.00,
+      "amount": 84.00,
+      "expense": 0.00
+    },
+    {
+      "rowNumber": 4,
+      "itemCode": "010102060004",
+      "description": "NEOFIL WATERPROOF LATEX MODIFIED TILE ADHESIVE",
+      "unit": "BAG",
+      "quantity": 9,
+      "price": 5.00,
+      "amount": 45.00,
+      "expense": 0.00
+    }
+  ],
+  "subtotal": 259.00,
+  "discountPercent": 0,
+  "discountAmount": 0.00,
+  "tax": 12.95,
+  "totalExpense": 0.00,
+  "total": 271.95,
+  "status": "DRAFT"
+}

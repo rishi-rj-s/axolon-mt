@@ -1,0 +1,12 @@
+<div class="actions-container">
+  <div class="left-actions">
+    <p-button label="Save" icon="pi pi-save" (click)="save.emit()" severity="success"></p-button>
+    <p-button label="Clear" icon="pi pi-file-excel" (click)="clear.emit()" [outlined]="true" severity="secondary"></p-button>
+    <p-button label="Void" icon="pi pi-times-circle" [outlined]="true" severity="secondary"></p-button>
+    <p-button label="Delete" icon="pi pi-trash" [outlined]="true" severity="danger"></p-button>
+  </div>
+  
+  <div class="right-actions">
+    <p-button label="Close" icon="pi pi-times" [outlined]="true" severity="secondary" (click)="onClose()"></p-button>
+  </div>
+</div>

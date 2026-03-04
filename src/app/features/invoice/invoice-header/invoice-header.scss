@@ -1,0 +1,60 @@
+.header-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px 16px;
+  align-items: center;
+  font-size: 13px; /* standard compact font */
+}
+
+/* Fix some spans to match screen */
+.vendor {
+  grid-column: span 2;
+}
+
+.field-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.blue-label {
+  color: #0b5ed7;
+  min-width: 100px;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* Form element sizing over-rides */
+::ng-deep {
+  .p-inputtext, .p-select, .p-datepicker {
+    width: 100%;
+    /* Keep inputs short in height */
+    padding: 0.35rem 0.5rem;
+    font-size: 13px !important;
+    height: 28px !important;
+  }
+  
+  .p-select-label {
+    padding: 0 !important;
+    line-height: inherit;
+  }
+}
+
+.vendor-inputs {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  
+  p-select { width: 40%; }
+  input { width: 60%; }
+}
+
+.currency-inputs {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+
+  .currency-drop { width: 60%; }
+  .currency-rate { width: 40%; }
+}
