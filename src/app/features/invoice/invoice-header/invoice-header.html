@@ -1,76 +1,92 @@
 <div class="header-grid" [formGroup]="form()">
   
-  <div class="field-item">
-    <label class="blue-label" for="docId">Doc ID</label>
-    <input pInputText id="docId" formControlName="docId" />
+  <!-- Row 1 -->
+  <div class="col-start-1 label-col blue-label">Doc ID:</div>
+  <div class="col-start-2 input-col">
+    <p-select id="docId" formControlName="docId" [options]="[{label: 'IMPI', value: 'IMPI'}]" optionLabel="label" optionValue="value" appendTo="body"></p-select>
   </div>
-
-  <div class="field-item">
-    <label class="blue-label" for="voucherNumber">Voucher Number</label>
+  
+  <div class="col-start-3 label-col blue-label">Voucher Number:</div>
+  <div class="col-start-4 input-col">
     <input pInputText id="voucherNumber" formControlName="voucherNumber" />
   </div>
+  
+  <div class="col-start-5 empty-spacer"></div>
 
-  <div class="field-item">
-    <label class="blue-label" for="date">Date</label>
-    <p-datepicker id="date" formControlName="date" dateFormat="dd-MM-yy"></p-datepicker>
+  <div class="col-start-6 label-col font-bold">Date:</div>
+  <div class="col-start-7 input-col flex">
+    <p-datepicker class="flex-1" id="date" formControlName="date" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"></p-datepicker>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="col-start-1 label-col blue-label">Vendor ID:</div>
+  <div class="col-start-2 input-col">
+    <p-select id="vendorId" formControlName="vendorId" 
+      [options]="(vendors$ | async) || []" optionLabel="id" optionValue="id" 
+      [filter]="true" appendTo="body"></p-select>
   </div>
   
-  <div class="field-item">
-    <label class="blue-label" for="dueDate">Due Date</label>
-    <p-datepicker id="dueDate" formControlName="dueDate" dateFormat="dd-MM-yy"></p-datepicker>
+  <!-- Vendor Name spans across col 3 and 4, completely overtaking Voucher Number column span -->
+  <div class="col-start-3 span-2 input-col">
+    <input class="w-full" pInputText id="vendorName" formControlName="vendorName" />
   </div>
 
-  <div class="field-item vendor">
-    <label class="blue-label" for="vendorId">Vendor</label>
-    <div class="vendor-inputs">
-      <p-select id="vendorId" formControlName="vendorId" 
-        [options]="(vendors$ | async) || []" optionLabel="name" optionValue="id" 
-        placeholder="Select Vendor" [filter]="true"></p-select>
-      <!-- We use a disabled text box just to mimic the view in the screenshot of vendor side values if we had any logic to duplicate name -->
-      <input pInputText id="vendorName" formControlName="vendorName" placeholder="Vendor Name Auto" />
+  <div class="col-start-5 empty-spacer"></div>
+
+  <div class="col-start-6 label-col">Reference:</div>
+  <div class="col-start-7 input-col">
+    <input class="w-full" pInputText id="reference" formControlName="reference" />
+  </div>
+
+  <!-- Row 3 -->
+  <div class="col-start-1 label-col blue-label">Buyer:</div>
+  <div class="col-start-2 input-col">
+    <p-select id="buyer" formControlName="buyer" [options]="(buyers$ | async) || []" appendTo="body"></p-select>
+  </div>
+  
+  <div class="col-start-3 label-col blue-label">Shipping Method:</div>
+  <div class="col-start-4 input-col">
+    <p-select id="shippingMethod" formControlName="shippingMethod" [options]="(methods$ | async) || []" appendTo="body"></p-select>
+  </div>
+
+  <div class="col-start-5 empty-spacer"></div>
+
+  <div class="col-start-6 label-col">Reference 2:</div>
+  <div class="col-start-7 input-col">
+    <input class="w-full" pInputText id="reference2" formControlName="reference2" />
+  </div>
+
+  <!-- Row 4 -->
+  <div class="col-start-1 label-col blue-label">Payment Term:</div>
+  <div class="col-start-2 input-col">
+    <p-select id="paymentTerm" formControlName="paymentTerm" [options]="(terms$ | async) || []" appendTo="body"></p-select>
+  </div>
+  
+  <div class="col-start-3 label-col blue-label">Tax Group:</div>
+  <div class="col-start-4 input-col">
+    <p-select id="taxGroup" formControlName="taxGroup" [options]="(taxGroups$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
+  </div>
+
+  <div class="col-start-5 empty-spacer"></div>
+
+  <div class="col-start-6 label-col blue-label">Currency:</div>
+  <div class="col-start-7 input-col currency-group">
+    <p-select class="flex-1" id="currency" formControlName="currency" [options]="(currencies$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
+    <div class="currency-rate-box">
+      <span>R:{{ form().get('exchangeRate')?.value | number:'1.2-2' }}</span>
     </div>
   </div>
 
-  <div class="field-item">
-    <label class="blue-label" for="reference">Reference</label>
-    <input pInputText id="reference" formControlName="reference" />
-  </div>
-  
-  <div class="field-item">
-    <label class="blue-label" for="reference2">Reference 2</label>
-    <input pInputText id="reference2" formControlName="reference2" />
+  <!-- Row 5 -->
+  <div class="col-start-6 label-col font-bold">Due Date:</div>
+  <div class="col-start-7 input-col flex">
+    <p-datepicker class="flex-1" id="dueDate" formControlName="dueDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"></p-datepicker>
   </div>
 
-  <div class="field-item">
-    <label class="blue-label" for="buyer">Buyer</label>
-    <p-select id="buyer" formControlName="buyer" [options]="(buyers$ | async) || []" placeholder="Select"></p-select>
+  <!-- Row 6 -->
+  <div class="col-start-6 label-col">Vendor Ref #:</div>
+  <div class="col-start-7 input-col">
+    <input class="w-full" pInputText id="vendorRef" formControlName="vendorRef" />
   </div>
 
-  <div class="field-item">
-    <label class="blue-label" for="shippingMethod">Shipping Method</label>
-    <p-select id="shippingMethod" formControlName="shippingMethod" [options]="(methods$ | async) || []" placeholder="Select"></p-select>
-  </div>
-
-  <div class="field-item">
-    <label class="blue-label" for="paymentTerm">Payment Term</label>
-    <p-select id="paymentTerm" formControlName="paymentTerm" [options]="(terms$ | async) || []" placeholder="Select"></p-select>
-  </div>
-
-  <div class="field-item">
-    <label class="blue-label" for="taxGroup">Tax Group</label>
-    <p-select id="taxGroup" formControlName="taxGroup" [options]="(taxGroups$ | async) || []" optionLabel="name" optionValue="code" placeholder="Select"></p-select>
-  </div>
-
-  <div class="field-item">
-    <label class="blue-label" for="currency">Currency / Rate</label>
-    <div class="currency-inputs">
-      <p-select class="currency-drop" id="currency" formControlName="currency" [options]="(currencies$ | async) || []" optionLabel="code" optionValue="code"></p-select>
-      <input class="currency-rate" pInputText formControlName="exchangeRate" type="number" />
-    </div>
-  </div>
-
-  <div class="field-item">
-    <label class="blue-label" for="vendorRef">Vendor Ref</label>
-    <input pInputText id="vendorRef" formControlName="vendorRef" />
-  </div>
 </div>

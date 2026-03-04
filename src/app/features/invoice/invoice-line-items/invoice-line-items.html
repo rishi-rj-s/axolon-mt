@@ -1,110 +1,129 @@
 <div class="line-items-container">
-  <p-table 
+  <p-table #dt
     [value]="items().controls" 
     [scrollable]="true" 
     scrollHeight="flex" 
-    styleClass="p-datatable-sm p-datatable-striped" 
-    [tableStyle]="{'min-width': '50rem'}">
+    styleClass="excel-table">
     
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 50px">Sl.No</th>
-        <th>Item Code</th>
-        <th>Description</th>
-        <th>Unit</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Amount</th>
-        <th>Expense</th> <!-- New Feature -->
-        <th style="width: 50px"></th>
+        <th class="row-header-th" style="width: 30px"></th>
+        <th style="width: 150px; cursor: pointer;" (click)="toggleSort('value.itemCode')">
+          <div class="header-content"><span>Item Code</span> <i class="pi" [ngClass]="getSortIcon('value.itemCode')"></i></div>
+        </th>
+        <th style="cursor: pointer;" (click)="toggleSort('value.description')">
+          <div class="header-content"><span>Description</span> <i class="pi" [ngClass]="getSortIcon('value.description')"></i></div>
+        </th>
+        <th style="width: 60px; cursor: pointer;" (click)="toggleSort('value.unit')">
+          <div class="header-content"><span>Unit</span> <i class="pi" [ngClass]="getSortIcon('value.unit')"></i></div>
+        </th>
+        <th style="width: 100px; cursor: pointer;" (click)="toggleSort('value.quantity')">
+          <div class="header-content"><span>Quantity</span> <i class="pi" [ngClass]="getSortIcon('value.quantity')"></i></div>
+        </th>
+        <th style="width: 130px; cursor: pointer;" (click)="toggleSort('value.price')">
+          <div class="header-content"><span>Price</span> <i class="pi" [ngClass]="getSortIcon('value.price')"></i></div>
+        </th>
+        <th style="width: 160px; cursor: pointer;" (click)="toggleSort('value.amount')">
+          <div class="header-content"><span>Amount</span> <i class="pi" [ngClass]="getSortIcon('value.amount')"></i></div>
+        </th>
+        <th style="width: 160px; cursor: pointer;" (click)="toggleSort('value.expense')">
+          <div class="header-content"><span>Expense</span> <i class="pi" [ngClass]="getSortIcon('value.expense')"></i></div>
+        </th>
       </tr>
-      <!-- Empty space or filter row if needed -->
     </ng-template>
 
     <ng-template pTemplate="body" let-control let-i="rowIndex">
       <tr [formGroup]="control">
-        <td>{{ i + 1 }}</td>
+        <td class="row-header">{{ i + 1 }}</td>
         
-        <td>
-          <p-select 
-            [options]="(itemList$ | async) || []" 
-            formControlName="itemCode" 
-            optionLabel="code" 
-            optionValue="code"
-            [filter]="true"
-            placeholder="Select Item"
-            appendTo="body"
-            (onChange)="onItemSelection($event.value, i)">
-            
-            <ng-template let-item pTemplate="item">
-              <div>{{ item.code }} - {{ item.description }}</div>
-            </ng-template>
-          </p-select>
+        <td class="cell-wrapper">
+          <input pInputText type="text" formControlName="itemCode" class="cell-input" (change)="onItemCodeChange($event, i)" />
         </td>
 
-        <td>
-          <input pInputText type="text" formControlName="description" class="w-full"/>
+        <td class="cell-wrapper">
+          <input pInputText type="text" formControlName="description" class="cell-input" />
         </td>
 
-        <td>
-          <input pInputText type="text" formControlName="unit" class="w-full"/>
+        <td class="cell-wrapper">
+          <input pInputText type="text" formControlName="unit" class="cell-input" />
         </td>
 
-        <td>
+        <td class="cell-wrapper">
           <p-inputNumber 
             inputId="quantity" 
             formControlName="quantity" 
             mode="decimal" 
             [minFractionDigits]="0" 
             [maxFractionDigits]="2"
+            styleClass="cell-input-number text-right"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
-        <td>
+        <td class="cell-wrapper">
           <p-inputNumber 
             inputId="price" 
             formControlName="price" 
             mode="decimal" 
             [minFractionDigits]="2" 
             [maxFractionDigits]="2"
+            styleClass="cell-input-number text-right"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
-        <td>
-          <!-- Read-only Amount -->
+        <td class="cell-wrapper">
           <p-inputNumber 
             inputId="amount" 
             formControlName="amount" 
             mode="decimal" 
             [minFractionDigits]="2" 
             [maxFractionDigits]="2"
-            [readonly]="true"></p-inputNumber>
+            [readonly]="true"
+            styleClass="cell-input-number text-right readonly-cell"></p-inputNumber>
         </td>
 
-        <td>
-          <!-- New Feature: Read-only proportional Expense -->
-          <p-inputNumber 
-            inputId="expense" 
-            formControlName="expense" 
-            mode="decimal" 
-            [minFractionDigits]="2" 
-            [maxFractionDigits]="2"
-            [readonly]="true"
-            class="expense-field"></p-inputNumber>
-        </td>
-        
-        <td>
-          <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="onRemoveRow(i)"></p-button>
+        <td class="cell-wrapper">
+          <div class="expense-container">
+            <p-inputNumber 
+              inputId="expense" 
+              formControlName="expense" 
+              mode="decimal" 
+              [minFractionDigits]="2" 
+              [maxFractionDigits]="2"
+              [readonly]="true"
+              styleClass="cell-input-number text-right readonly-cell expense-field"></p-inputNumber>
+            <button class="row-delete-btn" (click)="onRemoveRow(i)" title="Delete Row"><i class="pi pi-times"></i></button>
+          </div>
         </td>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="footer">
-      <tr>
-        <td colspan="9">
-          <p-button label="Add New Row" icon="pi pi-plus" [text]="true" (click)="onAddRow()"></p-button>
+      <tr class="add-row-tr" (click)="onAddRow()">
+        <td class="row-header" style="cursor: pointer;">+</td>
+        <td class="cell-wrapper" style="position: relative;">
+          <div class="add-row-label" style="position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; white-space: nowrap; z-index: 10; background: transparent;">
+            * Click Here to Add a New Row
+          </div>
         </td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
       </tr>
+      @for (emptyRow of emptyGridRows; track $index) {
+        <tr class="empty-grid-row">
+          <td class="row-header"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+          <td class="cell-wrapper"></td>
+        </tr>
+      }
     </ng-template>
   </p-table>
 </div>

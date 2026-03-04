@@ -1,60 +1,122 @@
 .header-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px 16px;
+  /* 
+    Col1: Left Labels
+    Col2: First Inputs
+    Col3: Second Labels
+    Col4: Second Inputs
+    Col5: Small Spacer
+    Col6: Right Labels
+    Col7: Right Inputs
+  */
+  grid-template-columns: 90px 130px 110px 180px 30px 100px 130px;
+  gap: 4px 6px;
   align-items: center;
-  font-size: 13px; /* standard compact font */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px; /* Very compact window native size */
+  background: white; /* Matches overall body */
 }
 
-/* Fix some spans to match screen */
-.vendor {
-  grid-column: span 2;
-}
-
-.field-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-
-.blue-label {
-  color: #0b5ed7;
-  min-width: 100px;
+.label-col {
   text-align: right;
-  font-weight: 500;
+  white-space: nowrap;
+  
+  &.blue-label {
+    color: #0000dd; /* Classic bright blue desktop app color */
+    font-weight: 600; /* Boldish */
+  }
+
+  &.font-bold {
+    font-weight: 600;
+  }
 }
 
-/* Form element sizing over-rides */
+.input-col {
+  display: flex;
+}
+
+.col-start-1 { grid-column-start: 1; }
+.col-start-2 { grid-column-start: 2; }
+.col-start-3 { grid-column-start: 3; }
+.col-start-4 { grid-column-start: 4; }
+.col-start-5 { grid-column-start: 5; }
+.col-start-6 { grid-column-start: 6; }
+.col-start-7 { grid-column-start: 7; }
+.span-2 { grid-column: span 2; }
+
+/* Override PrimeNG specifically for the desktop look */
 ::ng-deep {
-  .p-inputtext, .p-select, .p-datepicker {
-    width: 100%;
-    /* Keep inputs short in height */
-    padding: 0.35rem 0.5rem;
-    font-size: 13px !important;
-    height: 28px !important;
+  .p-inputtext,
+  .p-select,
+  .p-datepicker {
+    width: 100% !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    border: 1px solid #a0a0a0 !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.05) !important;
+    font-size: 11px !important;
+    color: #333 !important;
+    line-height: normal !important;
+    outline: none !important;
+    padding: 0 4px !important;
   }
-  
+
+  .p-inputtext:disabled,
+  .p-select.p-disabled,
+  .p-datepicker.p-disabled {
+    background: #f0f0f0 !important;
+    color: #666 !important;
+    opacity: 1 !important;
+    border: 1px solid #a0a0a0 !important;
+  }
+
+  /* Specific internal adjustments */
   .p-select-label {
     padding: 0 !important;
-    line-height: inherit;
+    line-height: 20px !important;
+    font-size: 11px !important;
+  }
+
+  .p-select-dropdown,
+  .p-datepicker-dropdown {
+    width: 16px !important;
+    min-width: 16px !important;
+    border-left: 1px solid #ccc !important;
+    background: #e1e1e1 !important;
+    padding: 0 !important;
+    
+    svg, i {
+      width: 10px !important;
+      height: 10px !important;
+      color: #333 !important;
+    }
+  }
+
+  /* Fix for datepicker inner input */
+  .p-datepicker-input {
+    border: none !important;
+    background: transparent !important;
+    height: 100% !important;
+    padding: 0 !important;
+    box-shadow: none !important;
   }
 }
 
-.vendor-inputs {
-  display: flex;
-  gap: 4px;
-  width: 100%;
-  
-  p-select { width: 40%; }
-  input { width: 60%; }
-}
+.flex { display: flex; }
+.flex-1 { flex: 1; }
+.w-full { width: 100%; }
 
-.currency-inputs {
+/* Currency Rate specific style from the image */
+.currency-rate-box {
+  background: #bbdefb; /* light blue */
+  border: 1px solid #a0a0a0;
+  border-left: none; /* attaches to dropdown */
+  height: 22px;
   display: flex;
-  gap: 4px;
-  width: 100%;
-
-  .currency-drop { width: 60%; }
-  .currency-rate { width: 40%; }
+  align-items: center;
+  padding: 0 4px;
+  color: #0d47a1;
+  font-size: 11px;
 }
