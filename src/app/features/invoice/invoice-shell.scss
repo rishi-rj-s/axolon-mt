@@ -8,13 +8,11 @@
 
 .toolbar-wrapper {
   flex: 0 0 auto;
-  border-bottom: 1px solid #ddd;
-  background-color: #f8f9fa;
 }
 
 .content-wrapper {
   flex: 1 1 auto;
-  overflow: auto; /* Internal scrolling within the form */
+  overflow: hidden; /* Lock the external form so the grid handles scrolling natively inside */
   padding: 8px;
   background: #fff;
   display: flex;
@@ -34,7 +32,7 @@
 
 .grid-section {
   flex: 1 1 auto;
-  min-height: 200px; /* Let grid take remaining space */
+  min-height: 0; /* Let grid take remaining space rigorously to trigger internal table overflow */
   border: 1px solid #ddd;
   margin-bottom: 8px;
   display: flex;
@@ -42,9 +40,12 @@
 }
 
 ::ng-deep .grid-section app-invoice-line-items {
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .bottom-section {

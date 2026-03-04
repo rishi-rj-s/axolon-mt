@@ -49,7 +49,6 @@ export class Login {
   private triggerLogin() {
     this.isLoading.set(true);
     setTimeout(() => {
-      this.isLoading.set(false);
       this.router.navigate(['/invoice']);
     }, 1000);
   }
