@@ -13,17 +13,21 @@
   gap: 4px 4px;
   align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 11px; /* Very compact window native size */
-  background: white; /* Matches overall body */
+  font-size: 11px;
+  /* Very compact window native size */
+  background: white;
+  /* Matches overall body */
 }
 
 .label-col {
   text-align: left;
   white-space: nowrap;
-  
+
   &.blue-label {
-    color: #0000dd; /* Classic bright blue desktop app color */
-    font-weight: 600; /* Boldish */
+    color: #0000dd;
+    /* Classic bright blue desktop app color */
+    font-weight: 600;
+    /* Boldish */
   }
 
   &.font-bold {
@@ -35,27 +39,51 @@
   display: flex;
 }
 
-.col-start-1 { grid-column-start: 1; }
-.col-start-2 { grid-column-start: 2; }
-.col-start-3 { grid-column-start: 3; }
-.col-start-4 { grid-column-start: 4; }
-.col-start-5 { grid-column-start: 5; }
-.col-start-6 { grid-column-start: 6; }
-.col-start-7 { grid-column-start: 7; }
-.span-2 { grid-column: span 2; }
+.col-start-1 {
+  grid-column-start: 1;
+}
+
+.col-start-2 {
+  grid-column-start: 2;
+}
+
+.col-start-3 {
+  grid-column-start: 3;
+}
+
+.col-start-4 {
+  grid-column-start: 4;
+}
+
+.col-start-5 {
+  grid-column-start: 5;
+}
+
+.col-start-6 {
+  grid-column-start: 6;
+}
+
+.col-start-7 {
+  grid-column-start: 7;
+}
+
+.span-2 {
+  grid-column: span 2;
+}
 
 /* Override PrimeNG specifically for the desktop look */
 ::ng-deep {
+
   .p-inputtext,
   .p-select,
-  .p-datepicker {
+  .p-datepicker input {
     width: 100% !important;
     height: 22px !important;
     min-height: 22px !important;
     border: 1px solid #a0a0a0 !important;
     border-radius: 0 !important;
     background: #ffffff !important;
-    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.05) !important;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05) !important;
     font-size: 11px !important;
     color: #333 !important;
     line-height: normal !important;
@@ -72,6 +100,37 @@
     border: 1px solid #a0a0a0 !important;
   }
 
+  .p-datepicker-panel {
+    height: auto !important; /* Forces it to expand to show all dates */
+    background: #ffffff !important;
+    border: 1px solid #ccc !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    padding: 5px !important;
+
+    table {
+      border-collapse: collapse !important;
+      width: 100% !important;
+      
+      th, td {
+        padding: 4px !important;
+        height: auto !important; /* Reset the 22px height for cells */
+      }
+      
+      span { /* Date numbers */
+        width: 25px !important;
+        height: 25px !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .p-datepicker-header {
+      padding: 4px !important;
+      height: auto !important;
+    }
+  }
+  
   /* Specific internal adjustments */
   .p-select-label {
     padding: 0 !important;
@@ -81,13 +140,14 @@
 
   .p-select-dropdown,
   .p-datepicker-dropdown {
-    width: 16px !important;
+    width: 18px !important;
     min-width: 16px !important;
     border-left: 1px solid #ccc !important;
     background: #e1e1e1 !important;
     padding: 0 !important;
-    
-    svg, i {
+
+    svg,
+    i {
       width: 10px !important;
       height: 10px !important;
       color: #333 !important;
@@ -104,19 +164,69 @@
   }
 }
 
-.flex { display: flex; }
-.flex-1 { flex: 1; }
-.w-full { width: 100%; }
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.w-full {
+  width: 100%;
+}
 
 /* Currency Rate specific style from the image */
 .currency-rate-box {
-  background: #bbdefb; /* light blue */
+  background: #bbdefb;
+  /* light blue */
   border: 1px solid #a0a0a0;
-  border-left: none; /* attaches to dropdown */
+  border-left: none;
+  /* attaches to dropdown */
   height: 22px;
   display: flex;
   align-items: center;
   padding: 0 4px;
   color: #0d47a1;
   font-size: 11px;
+}
+
+/* Use :host ::v-deep to reach inside the PrimeNG component */
+:host ::v-deep {
+  .date-input-container {
+    display: flex !important;
+    width: 100%;
+  }
+
+  .p-datepicker {
+    display: block !important; 
+    background-color: #ffffff !important;
+    border: 1px solid #c8c8c8 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    z-index: 9999 !important;
+    min-width: 280px;
+
+    table {
+      display: table !important; 
+      border-collapse: collapse !important;
+      width: 100% !important;
+      
+      tr {
+        display: table-row !important;
+        height: auto !important;
+      }
+      
+      td {
+        display: table-cell !important;
+        padding: 5px !important;
+      }
+    }
+
+    .p-datepicker-header {
+      display: flex !important;
+      background: #f4f4f4;
+      padding: 8px;
+      justify-content: space-between;
+    }
+  }
 }

@@ -132,6 +132,15 @@ export class InvoiceShell implements OnInit {
   }
 
   private setupReactiveCalculations() {
+    
+    // NEW: Auto-populate Vendor Name when Vendor ID is selected
+    this.invoiceForm.get('header.vendorId')?.valueChanges.subscribe(vendorId => {
+      this.dataService.getVendors().pipe(take(1)).subscribe(vendors => {
+        const vendor = vendors.find(v => v.id === vendorId);
+        this.invoiceForm.get('header.vendorName')?.setValue(vendor ? vendor.name : '');
+      });
+    });
+
     // 1. Listen to Line Items (Updates Subtotal)
     this.lineItemsArray.valueChanges.subscribe(() => {
       const items = this.lineItemsArray.getRawValue();

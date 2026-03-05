@@ -57,7 +57,7 @@ export class MockDataService {
   }
 
   getDefaultInvoice(): Observable<Invoice> {
-    return this.http.get<Invoice>('assets/defaults/invoice-defaults.json');
+    return this.http.get<Invoice>('/assets/defaults/invoice-defaults.json');
   }
 
   saveInvoice(invoice: Invoice): Observable<any> {
