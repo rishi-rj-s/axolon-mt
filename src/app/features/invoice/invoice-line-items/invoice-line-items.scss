@@ -191,10 +191,7 @@
     background-color: transparent !important;
   }
 
-  /* Expense specifics */
-  .expense-field .p-inputtext {
-    color: #b91c1c !important; /* visually indicate readonly difference */
-  }
+  /* Expense specifics (Reverted to Normal Black via natural cascading) */
 
   /* Align numbers */
   .text-right .p-inputtext {
