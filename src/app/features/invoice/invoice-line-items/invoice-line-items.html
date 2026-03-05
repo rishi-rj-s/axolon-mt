@@ -1,6 +1,7 @@
 <div class="line-items-container">
   <p-table #dt
-    [value]="items().controls" 
+    [value]="tableData"
+    dataKey="value.rowNumber"
     styleClass="excel-table">
     
     <ng-template pTemplate="header">
@@ -55,6 +56,8 @@
             [minFractionDigits]="0" 
             [maxFractionDigits]="2"
             styleClass="cell-input-number text-right"
+            (onFocus)="onFocusInput('quantity', i)"
+            (onBlur)="onBlurInput('quantity', i)"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
@@ -66,6 +69,8 @@
             [minFractionDigits]="2" 
             [maxFractionDigits]="2"
             styleClass="cell-input-number text-right"
+            (onFocus)="onFocusInput('price', i)"
+            (onBlur)="onBlurInput('price', i)"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
@@ -127,6 +132,26 @@
           <td class="cell-wrapper"></td>
         </tr>
       }
+
+      <tr class="totals-row-sticky">
+        <td class="row-header"></td>
+        <td class="cell-wrapper" colspan="3" style="text-align: right; padding-right: 8px !important;">
+          <span>Totals:</span>
+        </td>
+        <td class="cell-wrapper amount-column">
+          <span>{{ totalQuantity | number:'1.2-2' }}</span>
+        </td>
+        <td class="cell-wrapper amount-column">
+          <span>{{ totalPrice | number:'1.2-2' }}</span>
+        </td>
+        <td class="cell-wrapper amount-column">
+          <span>{{ totalAmount | number:'1.2-2' }}</span>
+        </td>
+        <td class="cell-wrapper amount-column">
+          <span>{{ totalExpense | number:'1.2-2' }}</span>
+        </td>
+        <td class="cell-wrapper"></td>
+      </tr>
     </ng-template>
   </p-table>
 </div>

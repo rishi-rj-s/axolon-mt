@@ -57,23 +57,66 @@
 }
 
 .notes-section {
-  flex: 1;
+  flex: 1; 
   display: flex;
-  gap: 8px;
-  max-width: 500px;
+  align-items: flex-start;
+  gap: 4px;
+  max-width: 600px; 
+}
+
+/* New wrapper to act as an anchor for the absolute positioned counter */
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
 }
 
 .blue-label {
-  color: #0b5ed7;
-  font-weight: 500;
+  color: #0000cc;
+  font-weight: 400;
   white-space: nowrap;
+  margin-top: 2px;
+  font-size: 11px; 
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+textarea#note {
+  width: 100%; 
+  border: 1px solid #7a9cd3;
+  border-radius: 0;
+  height: 90px; 
+  outline: none;
+  resize: none !important; 
+  overflow-y: scroll !important; 
+  
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  /* Added extra bottom padding so text doesn't hide behind the counter */
+  padding: 2px 4px 16px 4px; 
+  color: #000;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+textarea#note:focus {
+  border-color: #0000cc;
+}
+
+/* The actual counter text */
+.char-counter {
+  position: absolute;
+  bottom: 4px;
+  /* 20px accounts for the physical scrollbar width so it doesn't overlap it */
+  right: 20px; 
+  font-size: 10px;
+  color: #666;
+  font-family: Tahoma, Arial, sans-serif;
+  pointer-events: none; /* Ensures clicking the numbers clicks the textarea underneath */
 }
 
 .summary-section {
-  width: 300px;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  padding: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 250px;
 }
 
 .actions-wrapper {

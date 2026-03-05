@@ -4,11 +4,10 @@
     <!-- Navigation Buttons -->
     <div class="toolbar-nav-group">
       <button class="tool-btn"><i class="pi pi-step-backward-alt"></i></button>
-      <button class="tool-btn"><i class="pi pi-caret-left"></i></button>
-      <button class="tool-btn"><i class="pi pi-caret-right"></i></button>
+      <button class="tool-btn"><i class="pi pi-angle-left"></i></button>
+      <button class="tool-btn"><i class="pi pi-angle-right"></i></button>
       <button class="tool-btn"><i class="pi pi-step-forward-alt"></i></button>
     </div>
-
     <div class="toolbar-divider"></div>
     
     <!-- List Icon -->
@@ -19,36 +18,55 @@
     <!-- Quick Search Input -->
     <input type="text" pInputText class="quick-search-input" />
 
+    <div class="toolbar-divider"></div>
+
     <!-- Find Button -->
     <button class="tool-btn with-text">
-      <i class="pi pi-search"></i>
+      <i class="pi pi-search" style="font-size: 1.1rem;"></i>
       <span>Find</span>
     </button>
 
+    <div class="toolbar-divider"></div>
+
     <!-- Attach File Button -->
     <button class="tool-btn with-text">
-      <i class="pi pi-paperclip" style="transform: rotate(45deg);"></i>
+      <i class="pi pi-paperclip" style="transform: rotate(45deg); font-size: 1.1rem;"></i>
       <span>Attach File</span>
     </button>
+
+    <div class="toolbar-divider"></div>
 
     <!-- Message Bubble -->
     <button class="tool-btn"><i class="pi pi-comment"></i></button>
 
     <div class="toolbar-divider"></div>
 
-    <!-- Print Icons -->
-    <button class="tool-btn"><i class="pi pi-print"></i></button>
-    <button class="tool-btn"><i class="pi pi-file-excel"></i></button> <!-- Or preview icon -->
+    <!-- Print Icon -->
+    <button class="tool-btn with-dropdown">
+      <i class="pi pi-print"></i>
+      <i class="pi pi-caret-down mini-caret"></i>
+    </button>
+
+    <div class="toolbar-divider"></div>
+      
+    <!-- Print Preview Icon (Generic) -->
+    <button class="tool-btn with-dropdown">
+      <i class="pi pi-print"></i>
+      <i class="pi pi-caret-down mini-caret"></i>
+    </button>
+
+    <div class="toolbar-divider"></div>
+
+    <!-- New File -->
+    <button class="tool-btn"><i class="pi pi-file"></i></button>
 
     <div class="toolbar-divider"></div>
 
     <!-- Actions Dropdown -->
-    <button class="tool-btn with-text dropdown">
-      <i class="pi pi-file-edit"></i> <!-- Replace with info/list icon -->
-      <span style="position: relative;">
-        <i class="pi pi-info-circle tiny-info"></i>
-      </span>
-      <span>Actions <i class="pi pi-caret-down mini-caret"></i></span>
+    <button class="tool-btn with-text with-dropdown">
+      <i class="pi pi-file-edit" style="font-size: 1.1rem"></i>
+      <span style="margin-left: 6px;">Actions</span>
+      <i class="pi pi-caret-down mini-caret" style="margin-left: 4px;"></i>
     </button>
   </div>
   

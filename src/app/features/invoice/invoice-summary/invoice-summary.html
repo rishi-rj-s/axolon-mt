@@ -1,36 +1,43 @@
 <div class="summary-card" [formGroup]="form()">
   <div class="summary-row">
-    <label>Subtotal</label>
-    <div class="value">{{ form().get('subtotal')?.value | number:'1.2-2' }}</div>
+    <label>Subtotal:</label>
+    <div class="value-box">{{ form().get('subtotal')?.value | number:'1.2-2' }}</div>
   </div>
 
   <div class="summary-row">
-    <label>Discount %</label>
-    <div class="value input-wrapper">
-      <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"></p-inputNumber>
+    <label>Discount:</label>
+    <div class="discount-inputs">
+      <div class="input-wrapper percent-wrapper">
+        <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"
+          (onFocus)="onFocusInput('discountPercent')" (onBlur)="onBlurInput('discountPercent')"></p-inputNumber>
+      </div>
+      <span class="percent-sign">%</span>
+      <div class="input-wrapper amount-wrapper">
+        <p-inputNumber formControlName="discountAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+          (onFocus)="onFocusInput('discountAmount')" (onBlur)="onBlurInput('discountAmount')"></p-inputNumber>
+      </div>
     </div>
   </div>
 
   <div class="summary-row">
-    <label>Discount Amount</label>
-    <div class="value">{{ form().get('discountAmount')?.value | number:'1.2-2' }}</div>
-  </div>
-
-  <div class="summary-row">
-    <label>Tax</label>
-    <div class="value">{{ form().get('tax')?.value | number:'1.2-2' }}</div>
+    <label class="blue-label">Tax:</label>
+    <div class="input-wrapper amount-wrapper">
+      <p-inputNumber formControlName="tax" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+        (onFocus)="onFocusInput('tax')" (onBlur)="onBlurInput('tax')"></p-inputNumber>
+    </div>
   </div>
 
   <!-- New Feature: Total Expense Input -->
   <div class="summary-row highlight-expense">
-    <label>Total Expense</label>
-    <div class="value input-wrapper">
-      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+    <label>Total Expense:</label>
+    <div class="input-wrapper amount-wrapper expense-wrapper">
+      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+        (onFocus)="onFocusInput('totalExpense')" (onBlur)="onBlurInput('totalExpense')"></p-inputNumber>
     </div>
   </div>
 
   <div class="summary-row total-row">
-    <label>Total</label>
-    <div class="value">{{ form().get('total')?.value | number:'1.2-2' }}</div>
+    <label>Total:</label>
+    <div class="value-box total-box">{{ form().get('total')?.value | number:'1.2-2' }}</div>
   </div>
 </div>

@@ -1,32 +1,31 @@
 <div class="header-grid" [formGroup]="form()">
-  
-  <!-- Row 1 -->
+
   <div class="col-start-1 label-col blue-label">Doc ID:</div>
   <div class="col-start-2 input-col">
-    <p-select id="docId" formControlName="docId" [options]="[{label: 'IMPI', value: 'IMPI'}]" optionLabel="label" optionValue="value" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="docId" formControlName="docId"
+      [options]="[{label: 'IMPI', value: 'IMPI'}]" optionLabel="label" optionValue="value" appendTo="body"></p-select>
   </div>
-  
+
   <div class="col-start-3 label-col blue-label">Voucher Number:</div>
   <div class="col-start-4 input-col">
-    <input pInputText id="voucherNumber" formControlName="voucherNumber" />
+    <input class="w-full" pInputText id="voucherNumber" formControlName="voucherNumber" />
   </div>
-  
+
   <div class="col-start-5 empty-spacer"></div>
 
   <div class="col-start-6 label-col font-bold">Date:</div>
   <div class="col-start-7 input-col flex">
-    <p-datepicker class="flex-1" id="date" formControlName="date" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"></p-datepicker>
+    <p-datepicker class="w-full flex-1" styleClass="w-full" id="date" formControlName="date" dateFormat="mm/dd/yy"
+      [showIcon]="true" [selectOtherMonths]="true" appendTo="body" class="date-input" >
+    </p-datepicker>
   </div>
 
-  <!-- Row 2 -->
   <div class="col-start-1 label-col blue-label">Vendor ID:</div>
   <div class="col-start-2 input-col">
-    <p-select id="vendorId" formControlName="vendorId" 
-      [options]="(vendors$ | async) || []" optionLabel="id" optionValue="id" 
-      [filter]="true" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="vendorId" formControlName="vendorId"
+      [options]="(vendors$ | async) || []" optionLabel="id" optionValue="id" [filter]="true" appendTo="body"></p-select>
   </div>
-  
-  <!-- Vendor Name spans across col 3 and 4, completely overtaking Voucher Number column span -->
+
   <div class="col-start-3 span-2 input-col">
     <input class="w-full" pInputText id="vendorName" formControlName="vendorName" />
   </div>
@@ -38,15 +37,16 @@
     <input class="w-full" pInputText id="reference" formControlName="reference" />
   </div>
 
-  <!-- Row 3 -->
   <div class="col-start-1 label-col blue-label">Buyer:</div>
   <div class="col-start-2 input-col">
-    <p-select id="buyer" formControlName="buyer" [options]="(buyers$ | async) || []" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="buyer" formControlName="buyer" [options]="(buyers$ | async) || []"
+      appendTo="body"></p-select>
   </div>
-  
+
   <div class="col-start-3 label-col blue-label">Shipping Method:</div>
   <div class="col-start-4 input-col">
-    <p-select id="shippingMethod" formControlName="shippingMethod" [options]="(methods$ | async) || []" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="shippingMethod" formControlName="shippingMethod"
+      [options]="(methods$ | async) || []" appendTo="body"></p-select>
   </div>
 
   <div class="col-start-5 empty-spacer"></div>
@@ -56,34 +56,36 @@
     <input class="w-full" pInputText id="reference2" formControlName="reference2" />
   </div>
 
-  <!-- Row 4 -->
   <div class="col-start-1 label-col blue-label">Payment Term:</div>
   <div class="col-start-2 input-col">
-    <p-select id="paymentTerm" formControlName="paymentTerm" [options]="(terms$ | async) || []" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="paymentTerm" formControlName="paymentTerm"
+      [options]="(terms$ | async) || []" appendTo="body"></p-select>
   </div>
-  
+
   <div class="col-start-3 label-col blue-label">Tax Group:</div>
   <div class="col-start-4 input-col">
-    <p-select id="taxGroup" formControlName="taxGroup" [options]="(taxGroups$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
+    <p-select class="w-full" styleClass="w-full" id="taxGroup" formControlName="taxGroup"
+      [options]="(taxGroups$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
   </div>
 
   <div class="col-start-5 empty-spacer"></div>
 
   <div class="col-start-6 label-col blue-label">Currency:</div>
-  <div class="col-start-7 input-col currency-group">
-    <p-select class="flex-1" id="currency" formControlName="currency" [options]="(currencies$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
-    <div class="currency-rate-box">
+  <div class="col-start-7 input-col currency-group flex">
+    <p-select class="flex-1 w-full" styleClass="w-full" id="currency" formControlName="currency"
+      [options]="(currencies$ | async) || []" optionLabel="code" optionValue="code" appendTo="body"></p-select>
+    <div class="currency-rate-box ml-2 flex items-center">
       <span>R:{{ form().get('exchangeRate')?.value | number:'1.2-2' }}</span>
     </div>
   </div>
 
-  <!-- Row 5 -->
   <div class="col-start-6 label-col font-bold">Due Date:</div>
   <div class="col-start-7 input-col flex">
-    <p-datepicker class="flex-1" id="dueDate" formControlName="dueDate" dateFormat="mm/dd/yy" [showIcon]="true" appendTo="body"></p-datepicker>
+    <p-datepicker class="w-full flex-1" styleClass="w-full" id="dueDate" formControlName="dueDate" dateFormat="mm/dd/yy"
+      [showIcon]="true" [selectOtherMonths]="true" appendTo="body" class="date-input">
+    </p-datepicker>
   </div>
 
-  <!-- Row 6 -->
   <div class="col-start-6 label-col">Vendor Ref #:</div>
   <div class="col-start-7 input-col">
     <input class="w-full" pInputText id="vendorRef" formControlName="vendorRef" />

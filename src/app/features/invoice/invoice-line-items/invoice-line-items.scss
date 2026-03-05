@@ -24,7 +24,8 @@
   /* NATIVE SCROLL CONTAINER */
   .p-datatable-wrapper {
     flex: 1 1 auto;
-    overflow: auto !important;
+    overflow-y: scroll !important;
+    overflow-x: auto !important;
     min-height: 0;
 
     &::-webkit-scrollbar {
@@ -190,10 +191,7 @@
     background-color: transparent !important;
   }
 
-  /* Expense specifics */
-  .expense-field .p-inputtext {
-    color: #b91c1c !important; /* visually indicate readonly difference */
-  }
+  /* Expense specifics (Reverted to Normal Black via natural cascading) */
 
   /* Align numbers */
   .text-right .p-inputtext {
@@ -256,5 +254,27 @@
     color: #333;
     padding-left: 4px !important;
     background: #ffffff !important;
+  }
+
+  /* Static Sticky Row for Totals */
+  .totals-row-sticky > td {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 50 !important;
+    background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%) !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    color: #333 !important;
+    border-top: 1px solid #999 !important;
+    border-bottom: none !important;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+      height: 100%;
+      padding: 0 4px;
+    }
   }
 }

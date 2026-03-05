@@ -125,44 +125,88 @@ export class InvoiceShell implements OnInit {
         unit: [item.unit],
         quantity: [item.quantity],
         price: [item.price],
-        amount: [item.amount],
+        amount: [{ value: item.amount, disabled: true }],
         expense: [{ value: item.expense, disabled: true }]
       }));
     });
   }
 
   private setupReactiveCalculations() {
-    this.lineItemsArray.valueChanges.subscribe(items => {
+    
+    // NEW: Auto-populate Vendor Name when Vendor ID is selected
+    this.invoiceForm.get('header.vendorId')?.valueChanges.subscribe(vendorId => {
+      this.dataService.getVendors().pipe(take(1)).subscribe(vendors => {
+        const vendor = vendors.find(v => v.id === vendorId);
+        this.invoiceForm.get('header.vendorName')?.setValue(vendor ? vendor.name : '');
+      });
+    });
+
+    // 1. Listen to Line Items (Updates Subtotal)
+    this.lineItemsArray.valueChanges.subscribe(() => {
+      const items = this.lineItemsArray.getRawValue();
       const subtotal = items.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
       this.invoiceForm.get('summary.subtotal')?.setValue(subtotal, { emitEvent: false });
+      
+      // Keep the discount amount in sync if the subtotal changes
+      const currentPercent = this.invoiceForm.get('summary.discountPercent')?.value || 0;
+      const newDiscountAmt = subtotal * (currentPercent / 100);
+      this.invoiceForm.get('summary.discountAmount')?.setValue(newDiscountAmt, { emitEvent: false });
+
       this.recalculateTotal();
     });
 
-    this.invoiceForm.get('summary.discountPercent')?.valueChanges.subscribe(() => {
+    // 2. Bidirectional Discount: Typing PERCENT updates AMOUNT
+    this.invoiceForm.get('summary.discountPercent')?.valueChanges.subscribe((percent) => {
+      const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
+      const amount = subtotal * ((percent || 0) / 100);
+      this.invoiceForm.get('summary.discountAmount')?.setValue(amount, { emitEvent: false });
       this.recalculateTotal();
     });
 
+    // 3. Bidirectional Discount: Typing AMOUNT updates PERCENT
+    this.invoiceForm.get('summary.discountAmount')?.valueChanges.subscribe((amount) => {
+      const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
+      const percent = subtotal > 0 ? ((amount || 0) / subtotal) * 100 : 0;
+      this.invoiceForm.get('summary.discountPercent')?.setValue(percent, { emitEvent: false });
+      this.recalculateTotal();
+    });
+
+    // 4. Listen for manual typed edits to the tax field
+    this.invoiceForm.get('summary.tax')?.valueChanges.subscribe(() => {
+      this.recalculateTotal();
+    });
+
+    // 5. Auto-calculate tax when the Tax Group dropdown changes
     this.invoiceForm.get('header.taxGroup')?.valueChanges.subscribe(() => {
-      this.recalculateTotal();
+      const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
+      const discountAmount = this.invoiceForm.get('summary.discountAmount')?.value || 0;
+      const taxGroup = this.invoiceForm.get('header.taxGroup')?.value;
+
+      const taxRate = taxGroup === 'TAX01' ? 0.05 : 0;
+
+      // Setting this will automatically trigger the tax valueChanges listener above
+      this.invoiceForm.get('summary.tax')?.setValue((subtotal - discountAmount) * taxRate);
     });
 
+    // 6. Listen to Expense edits
     this.invoiceForm.get('summary.totalExpense')?.valueChanges.subscribe(() => {
-      this.distributeExpense();
+      this.recalculateTotal(); // Update final total to include expense
+      this.distributeExpense(); // Distribute expense across line items
     });
   }
 
   private recalculateTotal() {
     const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
-    const discountPercent = this.invoiceForm.get('summary.discountPercent')?.value || 0;
-    const taxGroup = this.invoiceForm.get('header.taxGroup')?.value; // Simplify tax to 5% if TAX01
+    // Read the directly typed/synced values instead of doing inline math
+    const discountAmount = this.invoiceForm.get('summary.discountAmount')?.value || 0;
+    const taxAmount = this.invoiceForm.get('summary.tax')?.value || 0;
+    const totalExpense = this.invoiceForm.get('summary.totalExpense')?.value || 0;
 
-    const discountAmount = subtotal * (discountPercent / 100);
-    const taxRate = taxGroup === 'TAX01' ? 0.05 : 0;
-    const taxAmount = (subtotal - discountAmount) * taxRate;
-    const total = subtotal - discountAmount + taxAmount;
+    // Grand total includes subtotal, subtracts discount, adds tax and adds total expense
+    const total = subtotal - discountAmount + taxAmount + totalExpense;
 
     this.invoiceForm.patchValue({
-      summary: { discountAmount, tax: taxAmount, total }
+      summary: { total } 
     }, { emitEvent: false });
 
     this.distributeExpense();
@@ -176,7 +220,7 @@ export class InvoiceShell implements OnInit {
 
     let distributed = 0;
     const controls = this.lineItemsArray.controls;
-    
+
     controls.forEach((ctrl, index) => {
       const amount = ctrl.get('amount')?.value || 0;
       let expense = 0;

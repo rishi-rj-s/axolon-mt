@@ -57,11 +57,11 @@ export class MockDataService {
   }
 
   getDefaultInvoice(): Observable<Invoice> {
-    return this.http.get<Invoice>('assets/defaults/invoice-defaults.json');
+    return this.http.get<Invoice>('/assets/defaults/invoice-defaults.json');
   }
 
   saveInvoice(invoice: Invoice): Observable<any> {
-    // In actual use, this calls our tiny save-server proxy
-    return this.http.post('http://localhost:3001/save', invoice);
+    // In actual use, this calls the backend for saving the invoice
+    return this.http.post('http://url:port/save', invoice);
   }
 }
