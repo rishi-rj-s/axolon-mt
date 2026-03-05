@@ -101,22 +101,26 @@
   }
 
   .p-datepicker-panel {
-    height: auto !important; /* Forces it to expand to show all dates */
+    height: auto !important;
+    /* Forces it to expand to show all dates */
     background: #ffffff !important;
     border: 1px solid #ccc !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
     padding: 5px !important;
 
     table {
       border-collapse: collapse !important;
       width: 100% !important;
-      
-      th, td {
+
+      th,
+      td {
         padding: 4px !important;
-        height: auto !important; /* Reset the 22px height for cells */
+        height: auto !important;
+        /* Reset the 22px height for cells */
       }
-      
-      span { /* Date numbers */
+
+      span {
+        /* Date numbers */
         width: 25px !important;
         height: 25px !important;
         display: flex !important;
@@ -125,12 +129,55 @@
       }
     }
 
-    .p-datepicker-header {
-      padding: 4px !important;
-      height: auto !important;
+  }
+
+  .p-select-overlay,
+  .p-datepicker-panel,
+  .p-overlaypanel {
+    background: #ffffff !important;
+    border: 1px solid #a0a0a0 !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10000 !important;
+  }
+
+  .p-datepicker-header {
+    padding: 4px !important;
+    height: auto !important;
+  }
+
+  /* Style the individual items inside the dropdown */
+  .p-select-list-container {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  .p-select-option {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    color: #333 !important;
+    height: auto !important;
+    /* Reset the 22px height limit */
+
+    &:hover,
+    &.p-focus {
+      background: #0078d7 !important;
+      /* Classic Windows blue highlight */
+      color: #ffffff !important;
     }
   }
-  
+
+  /* Fix for the filter/search box inside dropdowns (like Vendor ID) */
+  .p-select-filter-container {
+    padding: 4px !important;
+    background: #f0f0f0 !important;
+
+    .p-select-filter {
+      height: 22px !important;
+      font-size: 11px !important;
+    }
+  }
+
+
   /* Specific internal adjustments */
   .p-select-label {
     padding: 0 !important;
@@ -199,23 +246,23 @@
   }
 
   .p-datepicker {
-    display: block !important; 
+    display: block !important;
     background-color: #ffffff !important;
     border: 1px solid #c8c8c8 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     z-index: 9999 !important;
     min-width: 280px;
 
     table {
-      display: table !important; 
+      display: table !important;
       border-collapse: collapse !important;
       width: 100% !important;
-      
+
       tr {
         display: table-row !important;
         height: auto !important;
       }
-      
+
       td {
         display: table-cell !important;
         padding: 5px !important;
