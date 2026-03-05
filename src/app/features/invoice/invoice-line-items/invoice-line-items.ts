@@ -79,18 +79,43 @@ export class InvoiceLineItems implements OnInit {
 
   onFocusInput(field: string, index: number) {
     const row = this.items().at(index);
-    const val = row.get(field)?.value;
-    if (val === 0 || val === '0' || val === 0.00) {
-      row.get(field)?.setValue(null);
+    const control = row.get(field);
+    const val = control?.value;
+
+    if (field === 'quantity') {
+      // Clear the input only if the value is 1 AND it is pristine (untouched/system default)
+      if (val === 1 && control?.pristine) {
+        control?.setValue(null);
+      }
+    } else {
+      // Standard clearing for price, amount, etc.
+      if (val === 0 || val === '0' || val === 0.00) {
+        control?.setValue(null);
+      }
     }
   }
 
   onBlurInput(field: string, index: number) {
     const row = this.items().at(index);
-    const val = row.get(field)?.value;
-    if (val == null || val === '') {
-      row.get(field)?.setValue(0);
+    const control = row.get(field);
+    const val = control?.value;
+
+    if (field === 'quantity') {
+      // If the user leaves it completely empty, or explicitly tries to type 0
+      if (val == null || val === '' || val === 0) {
+        control?.setValue(1);
+        
+        // VITAL: Reset the state to pristine! 
+        // This ensures the next time they click it, it will clear out for them again.
+        control?.markAsPristine(); 
+      }
+    } else {
+      // Price and other fields default to 0
+      if (val == null || val === '') {
+        control?.setValue(0);
+      }
     }
+    
     this.updateAmount(index);
   }
 

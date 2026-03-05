@@ -21,7 +21,10 @@
 
   <div class="summary-row">
     <label class="blue-label">Tax:</label>
-    <div class="value-box">{{ form().get('tax')?.value | number:'1.2-2' }}</div>
+    <div class="input-wrapper amount-wrapper">
+      <p-inputNumber formControlName="tax" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+        (onFocus)="onFocusInput('tax')" (onBlur)="onBlurInput('tax')"></p-inputNumber>
+    </div>
   </div>
 
   <!-- New Feature: Total Expense Input -->

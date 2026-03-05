@@ -5,23 +5,28 @@
   <div class="toolbar-wrapper">
     <app-invoice-toolbar></app-invoice-toolbar>
   </div>
-  
+
   <div class="content-wrapper">
     <form [formGroup]="invoiceForm" class="invoice-form">
       <div class="header-section">
         <!-- Passes the header FormGroup slice down -->
         <app-invoice-header [form]="invoiceForm.controls.header"></app-invoice-header>
       </div>
-      
+
       <div class="grid-section">
         <!-- Passes the lineItems FormArray slice down -->
         <app-invoice-line-items [items]="invoiceForm.controls.lineItems"></app-invoice-line-items>
       </div>
-      
+
       <div class="bottom-section">
         <div class="notes-section">
           <label class="blue-label" for="note">Note:</label>
-          <textarea pInputTextarea id="note" formControlName="note" [rows]="4" [autoResize]="false" class="w-full"></textarea>
+          <div class="textarea-wrapper">
+            <textarea pInputTextarea id="note" formControlName="note" [autoResize]="false" maxlength="1000"></textarea>
+            <small class="char-counter">
+              {{ invoiceForm.get('note')?.value?.length || 0 }} / 1000
+            </small>
+          </div>
         </div>
         
         <div class="summary-section">
@@ -29,10 +34,10 @@
           <app-invoice-summary [form]="invoiceForm.controls.summary"></app-invoice-summary>
         </div>
       </div>
-      
+
     </form>
   </div>
-  
+
   <div class="actions-wrapper">
     <app-invoice-actions (save)="onSave()" (clear)="onClear()"></app-invoice-actions>
   </div>
