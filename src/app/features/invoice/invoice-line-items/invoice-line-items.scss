@@ -4,21 +4,22 @@
   height: 100%;
   min-height: 0;
   overflow: hidden;
+
+  /* Connect the flex chain through the Angular host element natively */
+  p-table {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 }
 
 ::ng-deep .excel-table {
   /* Establish explicit flex height flow downwards */
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1 1 auto;
   min-height: 0;
-
-  .p-datatable {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 0;
-  }
 
   /* NATIVE SCROLL CONTAINER */
   .p-datatable-wrapper {
@@ -48,18 +49,45 @@
 
   table {
     width: 100% !important;
-    border-collapse: separate !important; /* Critical workaround for Google Chrome sticky header bugs */
+    border-collapse: separate !important; /* Critical workaround for Google Chrome sticky header border bugs */
     border-spacing: 0 !important;
     table-layout: fixed !important;
+    position: relative;
     border-left: 1px solid #c0c0c0 !important;
+    border-top: 1px solid #c0c0c0 !important;
+  }
+
+  /* Center Trash Icon Content */
+  .action-cell {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 0 !important;
+    
+    .row-delete-btn-static {
+      margin: 0 auto; /* Force flex child to center naturally */
+    }
   }
 
   /* Headers */
+  .p-datatable-thead {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  .p-datatable-thead > tr {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
   .p-datatable-thead > tr > th {
     display: table-cell !important;
     background: linear-gradient(180deg, #f0f0f0 0%, #dcdcdc 100%) !important;
     border: none !important;
-    border-top: 1px solid #c0c0c0 !important;
     border-right: 1px solid #c0c0c0 !important;
     border-bottom: 2px solid #999 !important;
     padding: 4px 6px !important;
@@ -68,7 +96,7 @@
     font-weight: 600 !important; /* Make headers bold to distinguish them */
     position: sticky !important;
     top: 0 !important;
-    z-index: 20 !important;
+    z-index: 50 !important; /* Brutally enforce header stickiness over all body rows */
     
     &.item-name-header {
       color: #0000dd !important; /* Blue just for the item name text */
@@ -89,8 +117,8 @@
   .row-header-th {
     background: linear-gradient(180deg, #f9f9f9 0%, #e6e6e6 100%) !important;
     border: none !important;
-    border-top: 1px solid #c0c0c0 !important;
     border-right: 1px solid #c0c0c0 !important;
+    border-bottom: 2px solid #999 !important;
   }
 
   /* Body cells */
@@ -187,10 +215,10 @@
   .row-delete-btn-static {
     width: 20px;
     height: 20px;
-    background: #ffe5e5;
-    border: 1px solid #ffbaba;
-    color: #cc0000;
-    opacity: 0.8;
+    background: #f0f0f0;
+    border: 1px solid #cccccc;
+    color: #333333;
+    opacity: 0.9;
     cursor: pointer;
     font-size: 12px;
     border-radius: 4px;
@@ -200,8 +228,8 @@
     transition: all 0.15s ease-in-out;
     
     &:hover { 
-      background: #ffcccc; 
-      border-color: #ff9999;
+      background: #e0e0e0; 
+      border-color: #bbbbbb;
       opacity: 1; 
       transform: scale(1.05); /* Slight pop effect for physical touch */
     }
