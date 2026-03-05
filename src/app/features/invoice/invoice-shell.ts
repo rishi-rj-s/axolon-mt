@@ -125,14 +125,15 @@ export class InvoiceShell implements OnInit {
         unit: [item.unit],
         quantity: [item.quantity],
         price: [item.price],
-        amount: [item.amount],
+        amount: [{ value: item.amount, disabled: true }],
         expense: [{ value: item.expense, disabled: true }]
       }));
     });
   }
 
   private setupReactiveCalculations() {
-    this.lineItemsArray.valueChanges.subscribe(items => {
+    this.lineItemsArray.valueChanges.subscribe(() => {
+      const items = this.lineItemsArray.getRawValue();
       const subtotal = items.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
       this.invoiceForm.get('summary.subtotal')?.setValue(subtotal, { emitEvent: false });
       this.recalculateTotal();

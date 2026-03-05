@@ -93,7 +93,6 @@ axolon-mt/
 │   │       └── invoice-defaults.json         # Default form data
 │   └── styles.scss                           # Global styles
 ├── output/                                   # Saved invoice JSON files
-├── save-server.js                            # Express write-server
 ├── tsconfig.json                             # Path aliases configured
 └── package.json
 ```
@@ -121,11 +120,9 @@ pnpm install
 ### Development
 
 ```bash
-# Start Angular dev server + save-server (concurrent)
+# Start Angular dev server
 pnpm dev
 ```
-
-This runs both `ng serve --watch --open` on port 4200 and the Express save-server on port 3001.
 
 ### Build
 

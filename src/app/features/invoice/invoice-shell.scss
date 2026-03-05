@@ -59,21 +59,33 @@
 .notes-section {
   flex: 1;
   display: flex;
-  gap: 8px;
-  max-width: 500px;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 600px;
 }
 
 .blue-label {
-  color: #0b5ed7;
-  font-weight: 500;
+  color: #0000cc;
+  font-weight: 400;
   white-space: nowrap;
+  margin-top: 2px;
+}
+
+textarea#note {
+  border: 1px solid #7a9cd3;
+  border-radius: 0;
+  height: 80px;
+  outline: none;
+}
+textarea#note:focus {
+  border-color: #0000cc;
 }
 
 .summary-section {
-  width: 300px;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  padding: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 250px;
 }
 
 .actions-wrapper {

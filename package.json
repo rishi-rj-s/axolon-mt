@@ -9,8 +9,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "save-server": "node save-server.js",
-    "dev": "concurrently \"ng serve --watch --open\" \"node save-server.js\"",
+    "dev": "ng serve --watch --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

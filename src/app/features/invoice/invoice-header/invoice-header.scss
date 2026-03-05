@@ -9,8 +9,8 @@
     Col6: Right Labels
     Col7: Right Inputs
   */
-  grid-template-columns: 90px 130px 110px 180px 30px 100px 130px;
-  gap: 4px 6px;
+  grid-template-columns: 85px 140px 105px 180px 5px 85px 145px;
+  gap: 4px 4px;
   align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 11px; /* Very compact window native size */
@@ -18,7 +18,7 @@
 }
 
 .label-col {
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
   
   &.blue-label {

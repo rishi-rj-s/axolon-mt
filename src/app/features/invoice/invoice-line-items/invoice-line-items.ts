@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, input, inject } from '@angular/core';
-import { FormArray, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, input, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormArray, ReactiveFormsModule, FormBuilder, AbstractControl } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -17,14 +17,32 @@ import { take } from 'rxjs';
   styleUrl: './invoice-line-items.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InvoiceLineItems {
+export class InvoiceLineItems implements OnInit {
   items = input.required<FormArray>();
 
+  tableData: AbstractControl[] = [];
+  private cdr = inject(ChangeDetectorRef);
+
+  ngOnInit() {
+    this.syncTableData();
+    this.items().valueChanges.subscribe(() => {
+      if (this.tableData.length !== this.items().length) {
+        this.syncTableData();
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  syncTableData() {
+    this.tableData = [...this.items().controls];
+    this.cdr.detectChanges();
+  }
+
   get emptyGridRows() {
-    // Fills grid out up to a hard stop of 10 rows. 
-    // Further height natively converts into scrollbars via PrimeNG.
-    const minimumGridSkeletons = 10;
-    return new Array(Math.max(0, minimumGridSkeletons - this.items().length)).fill(0);
+    // Always show a fixed number of empty padding rows after the data + add-row.
+    // This ensures the table always has visual grid lines and data rows grow the table.
+    const fixedPaddingRows = 10;
+    return new Array(fixedPaddingRows).fill(0);
   }
 
   private dataService = inject(MockDataService);
@@ -33,22 +51,24 @@ export class InvoiceLineItems {
   itemList$ = this.dataService.getItems();
 
   onAddRow() {
-    const newIdx = this.items().length + 1;
     this.items().push(this.fb.group({
-      rowNumber: [newIdx],
+      rowNumber: [1],
       itemCode: [''],
       description: [''],
       unit: [''],
       quantity: [1],
       price: [0],
-      amount: [{ value: 0 }], // Disabled not strictly necessary if read-only in UI, but keeps recalculation active
+      amount: [{ value: 0, disabled: true }],
       expense: [{ value: 0, disabled: true }]
     }));
+    this.updateRowNumbers();
+    this.syncTableData();
   }
 
   onRemoveRow(index: number) {
     this.items().removeAt(index);
     this.updateRowNumbers();
+    this.syncTableData();
   }
 
   private updateRowNumbers() {
@@ -59,8 +79,12 @@ export class InvoiceLineItems {
 
   updateAmount(index: number) {
     const row = this.items().at(index);
-    const qty = row.get('quantity')?.value || 0;
-    const price = row.get('price')?.value || 0;
+    let qty = row.get('quantity')?.value;
+    let price = row.get('price')?.value;
+    
+    qty = typeof qty === 'number' ? qty : (Number(qty?.value) || Number(qty) || 0);
+    price = typeof price === 'number' ? price : (Number(price?.value) || Number(price) || 0);
+
     row.get('amount')?.setValue(qty * price);
   }
 
@@ -122,6 +146,28 @@ export class InvoiceLineItems {
       this.items().removeAt(0);
     }
     controlsArray.forEach(ctrl => this.items().push(ctrl));
+    this.syncTableData();
+  }
+
+  get totalQuantity(): number {
+    return this.items().controls.reduce((sum, row) => {
+      const val = row.get('quantity')?.value;
+      return sum + (typeof val === 'number' ? val : (Number(val?.value) || Number(val) || 0));
+    }, 0);
+  }
+
+  get totalAmount(): number {
+    return this.items().controls.reduce((sum, row) => {
+      const val = row.get('amount')?.value;
+      return sum + (typeof val === 'number' ? val : (Number(val?.value) || Number(val) || 0));
+    }, 0);
+  }
+
+  get totalExpense(): number {
+    return this.items().controls.reduce((sum, row) => {
+      const val = row.getRawValue().expense; // getting raw value to bypass disabled object nesting
+      return sum + (typeof val === 'number' ? val : (Number(val?.value) || Number(val) || 0));
+    }, 0);
   }
 
   onItemCodeChange(event: Event, index: number) {

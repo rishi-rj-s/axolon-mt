@@ -61,7 +61,7 @@ export class MockDataService {
   }
 
   saveInvoice(invoice: Invoice): Observable<any> {
-    // In actual use, this calls our tiny save-server proxy
-    return this.http.post('http://localhost:3001/save', invoice);
+    // In actual use, this calls the backend for saving the invoice
+    return this.http.post('http://url:port/save', invoice);
   }
 }
