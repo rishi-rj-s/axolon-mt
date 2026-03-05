@@ -1,14 +1,12 @@
 <div class="line-items-container">
   <p-table #dt
     [value]="items().controls" 
-    [scrollable]="true" 
-    scrollHeight="flex" 
     styleClass="excel-table">
     
     <ng-template pTemplate="header">
       <tr>
         <th class="row-header-th" style="width: 30px"></th>
-        <th style="width: 150px; cursor: pointer;" (click)="toggleSort('value.itemCode')">
+        <th class="item-name-header" style="width: 150px; cursor: pointer;" (click)="toggleSort('value.itemCode')">
           <div class="header-content"><span>Item Code</span> <i class="pi" [ngClass]="getSortIcon('value.itemCode')"></i></div>
         </th>
         <th style="cursor: pointer;" (click)="toggleSort('value.description')">
@@ -29,6 +27,7 @@
         <th style="width: 160px; cursor: pointer;" (click)="toggleSort('value.expense')">
           <div class="header-content"><span>Expense</span> <i class="pi" [ngClass]="getSortIcon('value.expense')"></i></div>
         </th>
+        <th class="action-header" style="width: 30px;"></th>
       </tr>
     </ng-template>
 
@@ -91,8 +90,10 @@
               [maxFractionDigits]="2"
               [readonly]="true"
               styleClass="cell-input-number text-right readonly-cell expense-field"></p-inputNumber>
-            <button class="row-delete-btn" (click)="onRemoveRow(i)" title="Delete Row"><i class="pi pi-times"></i></button>
           </div>
+        </td>
+        <td class="cell-wrapper action-cell" style="display: flex; justify-content: center; align-items: center;">
+          <button class="row-delete-btn-static" (click)="onRemoveRow(i)" title="Delete Row"><i class="pi pi-trash"></i></button>
         </td>
       </tr>
     </ng-template>
@@ -111,10 +112,12 @@
         <td class="cell-wrapper"></td>
         <td class="cell-wrapper"></td>
         <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
       </tr>
       @for (emptyRow of emptyGridRows; track $index) {
         <tr class="empty-grid-row">
           <td class="row-header"></td>
+          <td class="cell-wrapper"></td>
           <td class="cell-wrapper"></td>
           <td class="cell-wrapper"></td>
           <td class="cell-wrapper"></td>
