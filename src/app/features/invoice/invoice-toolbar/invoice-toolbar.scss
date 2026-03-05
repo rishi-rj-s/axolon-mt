@@ -64,13 +64,34 @@
   }
 
   /* Some specific tweaks */
-  .tiny-info {
-    font-size: 0.5rem;
-    position: absolute;
-    bottom: -2px;
-    right: -4px;
-    background: #f0f0f0;
-    border-radius: 50%;
+  .icon-stack {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .tiny-overlay-right {
+      font-size: 0.65rem !important;
+      position: absolute;
+      bottom: -2px;
+      right: -3px;
+    }
+    
+    .tiny-overlay-bottom {
+      font-size: 0.65rem !important;
+      position: absolute;
+      bottom: 0px;
+      right: 3px;
+    }
+
+    .bg-white {
+      background: white;
+      border-radius: 50%;
+    }
+  }
+
+  &.with-dropdown {
+    padding-right: 4px;
   }
 
   .mini-caret {
@@ -82,8 +103,7 @@
 .toolbar-divider {
   width: 1px;
   height: 20px;
-  background-color: #c0c0c0;
-  border-right: 1px solid #fff;
+  background-color: #999;
   margin: 0 4px;
 }
 
