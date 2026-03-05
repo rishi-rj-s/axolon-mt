@@ -8,11 +8,13 @@
     <label>Discount:</label>
     <div class="discount-inputs">
       <div class="input-wrapper percent-wrapper">
-        <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"></p-inputNumber>
+        <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"
+          (onFocus)="onFocusInput('discountPercent')" (onBlur)="onBlurInput('discountPercent')"></p-inputNumber>
       </div>
       <span class="percent-sign">%</span>
       <div class="input-wrapper amount-wrapper">
-        <p-inputNumber formControlName="discountAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+        <p-inputNumber formControlName="discountAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+          (onFocus)="onFocusInput('discountAmount')" (onBlur)="onBlurInput('discountAmount')"></p-inputNumber>
       </div>
     </div>
   </div>
@@ -26,7 +28,8 @@
   <div class="summary-row highlight-expense">
     <label>Total Expense:</label>
     <div class="input-wrapper amount-wrapper expense-wrapper">
-      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"></p-inputNumber>
+      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
+        (onFocus)="onFocusInput('totalExpense')" (onBlur)="onBlurInput('totalExpense')"></p-inputNumber>
     </div>
   </div>
 

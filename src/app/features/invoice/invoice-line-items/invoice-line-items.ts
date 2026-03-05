@@ -71,10 +71,27 @@ export class InvoiceLineItems implements OnInit {
     this.syncTableData();
   }
 
-  private updateRowNumbers() {
+  updateRowNumbers() {
     this.items().controls.forEach((ctrl, i) => {
       ctrl.get('rowNumber')?.setValue(i + 1, { emitEvent: false });
     });
+  }
+
+  onFocusInput(field: string, index: number) {
+    const row = this.items().at(index);
+    const val = row.get(field)?.value;
+    if (val === 0 || val === '0' || val === 0.00) {
+      row.get(field)?.setValue(null);
+    }
+  }
+
+  onBlurInput(field: string, index: number) {
+    const row = this.items().at(index);
+    const val = row.get(field)?.value;
+    if (val == null || val === '') {
+      row.get(field)?.setValue(0);
+    }
+    this.updateAmount(index);
   }
 
   updateAmount(index: number) {
@@ -152,6 +169,13 @@ export class InvoiceLineItems implements OnInit {
   get totalQuantity(): number {
     return this.items().controls.reduce((sum, row) => {
       const val = row.get('quantity')?.value;
+      return sum + (typeof val === 'number' ? val : (Number(val?.value) || Number(val) || 0));
+    }, 0);
+  }
+
+  get totalPrice(): number {
+    return this.items().controls.reduce((sum, row) => {
+      const val = row.get('price')?.value;
       return sum + (typeof val === 'number' ? val : (Number(val?.value) || Number(val) || 0));
     }, 0);
   }
