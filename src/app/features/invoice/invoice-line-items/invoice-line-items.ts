@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, inject, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormArray, ReactiveFormsModule, FormBuilder, AbstractControl } from '@angular/forms';
+import { FormArray, ReactiveFormsModule, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -53,11 +53,11 @@ export class InvoiceLineItems implements OnInit {
   onAddRow() {
     this.items().push(this.fb.group({
       rowNumber: [1],
-      itemCode: [''],
-      description: [''],
-      unit: [''],
-      quantity: [1],
-      price: [0],
+      itemCode: ['', Validators.required],
+      description: ['', Validators.required],
+      unit: ['', Validators.required],
+      quantity: [1, [Validators.required, Validators.min(0.01)]],
+      price: [0, [Validators.required, Validators.min(0)]],
       amount: [{ value: 0, disabled: true }],
       expense: [{ value: 0, disabled: true }]
     }));
@@ -104,10 +104,10 @@ export class InvoiceLineItems implements OnInit {
       // If the user leaves it completely empty, or explicitly tries to type 0
       if (val == null || val === '' || val === 0) {
         control?.setValue(1);
-        
+
         // VITAL: Reset the state to pristine! 
         // This ensures the next time they click it, it will clear out for them again.
-        control?.markAsPristine(); 
+        control?.markAsPristine();
       }
     } else {
       // Price and other fields default to 0
@@ -115,7 +115,7 @@ export class InvoiceLineItems implements OnInit {
         control?.setValue(0);
       }
     }
-    
+
     this.updateAmount(index);
   }
 
@@ -123,7 +123,7 @@ export class InvoiceLineItems implements OnInit {
     const row = this.items().at(index);
     let qty = row.get('quantity')?.value;
     let price = row.get('price')?.value;
-    
+
     qty = typeof qty === 'number' ? qty : (Number(qty?.value) || Number(qty) || 0);
     price = typeof price === 'number' ? price : (Number(price?.value) || Number(price) || 0);
 
@@ -156,7 +156,7 @@ export class InvoiceLineItems implements OnInit {
 
   applySort() {
     const controlsArray = [...this.items().controls];
-    
+
     if (!this.sortState.field) {
       controlsArray.sort((a, b) => {
         const val1 = a.get('rowNumber')?.value || 0;
@@ -166,11 +166,11 @@ export class InvoiceLineItems implements OnInit {
     } else {
       const sortField = this.sortState.field.replace('value.', '');
       const sortOrder = this.sortState.order;
-      
+
       controlsArray.sort((a, b) => {
         const val1 = a.get(sortField)?.value;
         const val2 = b.get(sortField)?.value;
-        
+
         let result = 0;
         if (val1 == null && val2 != null) result = -1;
         else if (val1 != null && val2 == null) result = 1;
@@ -222,7 +222,7 @@ export class InvoiceLineItems implements OnInit {
   onItemCodeChange(event: Event, index: number) {
     const code = (event.target as HTMLInputElement).value;
     if (!code) return;
-    
+
     this.itemList$.pipe(take(1)).subscribe(items => {
       const itemData = items.find(i => i.code === code);
       if (itemData) {

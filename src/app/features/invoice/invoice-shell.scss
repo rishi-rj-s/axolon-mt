@@ -129,8 +129,8 @@
     }
   }
 
-  /* --- ERP CONFIRM DIALOG STYLING --- */
-  .erp-dialog {
+  /* --- ERP CONFIRM DIALOG STYLING (HIGH SPECIFICITY) --- */
+  div.p-dialog.erp-dialog {
     border-radius: 0 !important;
     border: 1px solid #7a9cd3 !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
@@ -140,32 +140,36 @@
       background: #e1e1e1 !important;
       padding: 8px 12px !important;
       border-bottom: 1px solid #ccc !important;
+    }
+
+    span.p-dialog-title {
       color: #333 !important;
       font-size: 12px !important;
       font-weight: bold !important;
     }
 
-    /* Stronger selector to beat PrimeNG's default gray hover */
-    button.p-dialog-header-icon.p-dialog-header-close {
-      width: 28px !important;
-      height: 28px !important;
+    /* CLOSE BUTTON - High Specificity */
+    .p-dialog-header button.p-dialog-header-icon.p-dialog-header-close {
+      width: 24px !important;
+      height: 24px !important;
       border-radius: 0 !important;
       color: #333 !important;
       background-color: transparent !important;
-      /* Reset default background */
       border: 1px solid transparent !important;
       transition: none !important;
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:enabled:hover {
         background-color: #e81123 !important;
-        /* Classic Windows Red */
+        /* Windows Red */
+        border-color: #e81123 !important;
         color: #ffffff !important;
         outline: none !important;
 
-        /* Force SVGs to turn white using all possible SVG color properties */
         svg,
-        i {
+        i,
+        span {
           color: #ffffff !important;
           fill: #ffffff !important;
           stroke: #ffffff !important;
@@ -179,18 +183,14 @@
       font-size: 12px !important;
       color: #000 !important;
       background: #fff !important;
-
-      /* Flexbox separates the warning triangle from the text */
       display: flex !important;
       align-items: center !important;
       gap: 12px !important;
     }
 
-    /* Size the warning icon appropriately */
     .p-confirm-dialog-icon {
       font-size: 24px !important;
       color: #f5a623 !important;
-      /* Warning Orange/Yellow */
       display: flex;
     }
 
@@ -209,24 +209,82 @@
       gap: 8px;
     }
 
-    .p-button {
+    button.p-button {
       padding: 4px 16px !important;
       font-size: 11px !important;
       border-radius: 0 !important;
       height: 24px !important;
       border: 1px solid #999 !important;
+      transition: none !important;
     }
 
-    .erp-button-accept {
-      background: #0056b3 !important;
+    /* YES Button Hover */
+    button.p-button.erp-button-accept {
+      background-color: #0056b3 !important;
       color: white !important;
       border-color: #004494 !important;
+
+      &:hover,
+      &:enabled:hover {
+        background-color: #004494 !important;
+        border-color: #002a5c !important;
+      }
     }
 
-    .erp-button-reject {
-      background: #e1e1e1 !important;
+    /* NO Button Hover */
+    button.p-button.erp-button-reject {
+      background-color: #e1e1e1 !important;
       color: #333 !important;
+
+      &:hover,
+      &:enabled:hover {
+        background-color: #cccccc !important;
+        border-color: #888888 !important;
+      }
     }
+  }
+
+  /* --- STRICT VALIDATION STYLES --- */
+  /* Only color the specific element that is invalid, preventing the "Red Cascade" */
+
+  /* 1. Standard Text Inputs & Textareas */
+  input.ng-invalid.ng-touched.p-inputtext,
+  textarea.ng-invalid.ng-touched {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+  }
+
+  /* 2. Select Dropdowns */
+  p-select.ng-invalid.ng-touched {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+
+    .p-select-label {
+      background-color: transparent !important;
+    }
+  }
+
+  /* 3. Datepickers and InputNumbers */
+  p-datepicker.ng-invalid.ng-touched input,
+  p-inputnumber.ng-invalid.ng-touched input {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+  }
+
+  /* NUCLEAR OPTION FOR DIALOG CLOSE BUTTON HOVER (Just in case PrimeNG is ultra stubborn) */
+  .erp-dialog .p-dialog-header-close:hover,
+  .erp-dialog .p-dialog-header-icon:hover {
+    background-color: #e81123 !important;
+    border-color: #e81123 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  .erp-dialog .p-dialog-header-close:hover *,
+  .erp-dialog .p-dialog-header-icon:hover * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
   }
 }
 

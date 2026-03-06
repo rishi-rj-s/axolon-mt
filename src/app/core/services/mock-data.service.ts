@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { Vendor, Item, TaxGroup, Currency, Invoice } from '@models/invoice.model';
 
 @Injectable({ providedIn: 'root' })
@@ -47,7 +47,7 @@ export class MockDataService {
   getPaymentTerms(): Observable<string[]> {
     return of(['P-10003', 'NET30', 'NET60', 'CASH']);
   }
-  
+
   getBuyers(): Observable<string[]> {
     return of(['System', 'Admin', 'User1']);
   }
@@ -61,7 +61,11 @@ export class MockDataService {
   }
 
   saveInvoice(invoice: Invoice): Observable<any> {
+    return of({
+      status: 200,
+      message: 'Invoice IMPI00001 saved successfully!'
+    }).pipe(delay(500));
     // In actual use, this calls the backend for saving the invoice
-    return this.http.post('http://url:port/save', invoice);
+    // return this.http.post('http://url:port/save', invoice);
   }
 }
