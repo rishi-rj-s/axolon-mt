@@ -2,67 +2,50 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px; // Adjust padding for the whole bar
+  padding: 8px 16px;
 
-  .left-actions, .right-actions {
+  .left-actions,
+  .right-actions {
     display: flex;
-    gap: 0.75rem; // Increased gap between buttons for a cleaner look
+    gap: 0.75rem;
   }
 
-  // Target the custom class we added to the p-button elements
   .action-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px; // Clean, modern corners
+    border-radius: 4px;
     transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-    min-width: 85px; // Ensure consistent, prominent button width
+    min-width: 85px;
 
-    // Base button styling
-    background-color: #fcfcfc; // Light, clean button color
-    border: 1px solid #d0d0d0; // Subtle border
-    color: #444; // Button text color
-    padding: 0.5rem 1.25rem; // Prominent, clickable padding
+    background-color: #fcfcfc;
+    border: 1px solid #d0d0d0;
+    color: #444;
+    padding: 0.5rem 1.25rem;
     font-size: 13px;
 
-    // Hover state for active buttons
     &:hover:not(.p-disabled):not(:disabled) {
       background-color: #f0f0f0;
       border-color: #c0c0c0;
       color: #111;
     }
 
-    // Active/Click state for active buttons
     &:active:not(.p-disabled):not(:disabled) {
       background-color: #e8e8e8;
       border-color: #b0b0b0;
       color: #000;
     }
 
-    // Styling for the PrimeNG icon and label within the button
     ::ng-deep {
       .p-button-icon {
         font-size: 1.1rem;
-        margin-right: 0.5rem; // Space between icon and label
-        color: inherit; // Icon inherits color from parent button
+        margin-right: 0.5rem;
+        color: inherit;
       }
 
       .p-button-label {
-        font-weight: normal; // Prevents modern bold labels
+        font-weight: normal;
         color: inherit;
-      }
-    }
-
-    // Handle disabled state (for the Void button)
-    &.p-disabled, &:disabled {
-      background-color: #f0f0f0 !important;
-      border-color: #dcdcdc !important;
-      color: #a0a0a0 !important;
-      cursor: default;
-      opacity: 1 !important; // Overrides PrimeNG's default fade-out
-
-      ::ng-deep .p-button-icon {
-        color: #a0a0a0 !important; // Grey out the icon
       }
     }
   }

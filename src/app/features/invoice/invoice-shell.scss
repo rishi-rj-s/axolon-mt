@@ -13,7 +13,6 @@
 .content-wrapper {
   flex: 1 1 auto;
   overflow: hidden;
-  /* Lock the external form so the grid handles scrolling natively inside */
   padding: 8px;
   background: #fff;
   display: flex;
@@ -34,7 +33,6 @@
 .grid-section {
   flex: 1 1 auto;
   min-height: 0;
-  /* Let grid take remaining space rigorously to trigger internal table overflow */
   border: 1px solid #ddd;
   margin-bottom: 8px;
   display: flex;
@@ -43,7 +41,6 @@
 
 ::ng-deep {
 
-  /* --- ERP TOAST STYLING --- */
   .erp-toast {
     width: 320px !important;
     opacity: 1 !important;
@@ -60,15 +57,12 @@
         display: flex !important;
         align-items: flex-start !important;
         gap: 12px !important;
-        /* Forces space between icon and text */
       }
 
-      /* STRICTLY contain the SVG/Icon so it doesn't blow up */
       .p-toast-message-icon {
         width: 20px !important;
         height: 20px !important;
         flex-shrink: 0 !important;
-        /* Prevents text from squashing the icon */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -87,7 +81,6 @@
         flex-direction: column;
         gap: 4px;
         flex: 1 !important;
-        /* Allows text to take remaining space */
       }
 
       .p-toast-summary {
@@ -129,43 +122,43 @@
     }
   }
 
-  /* --- ERP CONFIRM DIALOG STYLING --- */
-  .erp-dialog {
+  div.p-dialog.erp-dialog {
     border-radius: 0 !important;
     border: 1px solid #7a9cd3 !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
 
-    /* Header & Title */
     .p-dialog-header {
       background: #e1e1e1 !important;
       padding: 8px 12px !important;
       border-bottom: 1px solid #ccc !important;
+    }
+
+    span.p-dialog-title {
       color: #333 !important;
       font-size: 12px !important;
       font-weight: bold !important;
     }
 
-    /* Stronger selector to beat PrimeNG's default gray hover */
-    button.p-dialog-header-icon.p-dialog-header-close {
-      width: 28px !important;
-      height: 28px !important;
+    .p-dialog-header button.p-dialog-header-icon.p-dialog-header-close {
+      width: 24px !important;
+      height: 24px !important;
       border-radius: 0 !important;
       color: #333 !important;
       background-color: transparent !important;
-      /* Reset default background */
       border: 1px solid transparent !important;
       transition: none !important;
 
       &:hover,
-      &:focus {
+      &:focus,
+      &:enabled:hover {
         background-color: #e81123 !important;
-        /* Classic Windows Red */
+        border-color: #e81123 !important;
         color: #ffffff !important;
         outline: none !important;
 
-        /* Force SVGs to turn white using all possible SVG color properties */
         svg,
-        i {
+        i,
+        span {
           color: #ffffff !important;
           fill: #ffffff !important;
           stroke: #ffffff !important;
@@ -173,24 +166,19 @@
       }
     }
 
-    /* FIX: Icon and Text Overlap */
     .p-dialog-content {
       padding: 20px !important;
       font-size: 12px !important;
       color: #000 !important;
       background: #fff !important;
-
-      /* Flexbox separates the warning triangle from the text */
       display: flex !important;
       align-items: center !important;
       gap: 12px !important;
     }
 
-    /* Size the warning icon appropriately */
     .p-confirm-dialog-icon {
       font-size: 24px !important;
       color: #f5a623 !important;
-      /* Warning Orange/Yellow */
       display: flex;
     }
 
@@ -199,7 +187,6 @@
       margin: 0 !important;
     }
 
-    /* Footer & Buttons */
     .p-dialog-footer {
       background: #f0f0f0 !important;
       padding: 8px !important;
@@ -209,24 +196,73 @@
       gap: 8px;
     }
 
-    .p-button {
+    button.p-button {
       padding: 4px 16px !important;
       font-size: 11px !important;
       border-radius: 0 !important;
       height: 24px !important;
       border: 1px solid #999 !important;
+      transition: none !important;
     }
 
-    .erp-button-accept {
-      background: #0056b3 !important;
+    button.p-button.erp-button-accept {
+      background-color: #0056b3 !important;
       color: white !important;
       border-color: #004494 !important;
+
+      &:hover,
+      &:enabled:hover {
+        background-color: #004494 !important;
+        border-color: #002a5c !important;
+      }
     }
 
-    .erp-button-reject {
-      background: #e1e1e1 !important;
+    button.p-button.erp-button-reject {
+      background-color: #e1e1e1 !important;
       color: #333 !important;
+
+      &:hover,
+      &:enabled:hover {
+        background-color: #cccccc !important;
+        border-color: #888888 !important;
+      }
     }
+  }
+
+  input.ng-invalid.ng-touched.p-inputtext,
+  textarea.ng-invalid.ng-touched {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+  }
+
+  p-select.ng-invalid.ng-touched {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+
+    .p-select-label {
+      background-color: transparent !important;
+    }
+  }
+
+  p-datepicker.ng-invalid.ng-touched input,
+  p-inputnumber.ng-invalid.ng-touched input {
+    background-color: #ffe6e6 !important;
+    border-color: #dc3545 !important;
+  }
+
+  .erp-dialog .p-dialog-header-close:hover,
+  .erp-dialog .p-dialog-header-icon:hover {
+    background-color: #e81123 !important;
+    border-color: #e81123 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  .erp-dialog .p-dialog-header-close:hover *,
+  .erp-dialog .p-dialog-header-icon:hover * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
   }
 }
 
@@ -255,7 +291,6 @@
   max-width: 600px;
 }
 
-/* New wrapper to act as an anchor for the absolute positioned counter */
 .textarea-wrapper {
   position: relative;
   width: 100%;
@@ -281,7 +316,6 @@ textarea#note {
 
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
-  /* Added extra bottom padding so text doesn't hide behind the counter */
   padding: 2px 4px 16px 4px;
   color: #000;
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05);
@@ -291,17 +325,14 @@ textarea#note:focus {
   border-color: #0000cc;
 }
 
-/* The actual counter text */
 .char-counter {
   position: absolute;
   bottom: 4px;
-  /* 20px accounts for the physical scrollbar width so it doesn't overlap it */
   right: 20px;
   font-size: 10px;
   color: #666;
   font-family: Tahoma, Arial, sans-serif;
   pointer-events: none;
-  /* Ensures clicking the numbers clicks the textarea underneath */
 }
 
 .summary-section {

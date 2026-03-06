@@ -6,8 +6,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TextareaModule } from 'primeng/textarea';
 import { Invoice } from '@models/invoice.model';
-
 import { take } from 'rxjs';
+
 import { InvoiceActions } from './invoice-actions/invoice-actions';
 import { InvoiceHeader } from './invoice-header/invoice-header';
 import { InvoiceLineItems } from './invoice-line-items/invoice-line-items';
@@ -18,15 +18,8 @@ import { InvoiceToolbar } from './invoice-toolbar/invoice-toolbar';
   selector: 'app-invoice-shell',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    ToastModule,
-    ConfirmDialogModule,
-    TextareaModule,
-    InvoiceHeader,
-    InvoiceLineItems,
-    InvoiceSummary,
-    InvoiceToolbar,
-    InvoiceActions
+    ReactiveFormsModule, ToastModule, ConfirmDialogModule, TextareaModule,
+    InvoiceHeader, InvoiceLineItems, InvoiceSummary, InvoiceToolbar, InvoiceActions
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './invoice-shell.html',
@@ -42,18 +35,18 @@ export class InvoiceShell implements OnInit {
   invoiceForm = this.fb.group({
     header: this.fb.group({
       docId: ['', Validators.required],
-      voucherNumber: [{ value: '', disabled: true }],
+      voucherNumber: ['', Validators.required],
       date: [new Date(), Validators.required],
       vendorId: ['', Validators.required],
       vendorName: [{ value: '', disabled: true }],
       reference: [''],
       reference2: [''],
-      buyer: [''],
-      shippingMethod: [''],
-      paymentTerm: [''],
-      taxGroup: [''],
-      currency: [''],
-      exchangeRate: [1],
+      buyer: ['', Validators.required],
+      shippingMethod: ['', Validators.required],
+      paymentTerm: ['', Validators.required],
+      taxGroup: ['', Validators.required],
+      currency: ['', Validators.required],
+      exchangeRate: [1, Validators.required],
       dueDate: [new Date(), Validators.required],
       vendorRef: ['']
     }),
@@ -88,21 +81,9 @@ export class InvoiceShell implements OnInit {
   private populateForm(data: Invoice) {
     this.invoiceForm.patchValue({
       header: {
-        docId: data.docId,
-        voucherNumber: data.voucherNumber,
+        ...data,
         date: new Date(data.date),
-        vendorId: data.vendorId,
-        vendorName: data.vendorName,
-        reference: data.reference,
-        reference2: data.reference2,
-        buyer: data.buyer,
-        shippingMethod: data.shippingMethod,
-        paymentTerm: data.paymentTerm,
-        taxGroup: data.taxGroup,
-        currency: data.currency,
-        exchangeRate: data.exchangeRate,
-        dueDate: new Date(data.dueDate),
-        vendorRef: data.vendorRef
+        dueDate: new Date(data.dueDate)
       },
       summary: {
         subtotal: data.subtotal,
@@ -120,11 +101,11 @@ export class InvoiceShell implements OnInit {
     data.lineItems.forEach(item => {
       this.lineItemsArray.push(this.fb.group({
         rowNumber: [item.rowNumber],
-        itemCode: [item.itemCode],
-        description: [item.description],
-        unit: [item.unit],
-        quantity: [item.quantity],
-        price: [item.price],
+        itemCode: [item.itemCode, Validators.required],
+        description: [item.description, Validators.required],
+        unit: [item.unit, Validators.required],
+        quantity: [item.quantity, [Validators.required, Validators.min(0.01)]],
+        price: [item.price, [Validators.required, Validators.min(0)]],
         amount: [{ value: item.amount, disabled: true }],
         expense: [{ value: item.expense, disabled: true }]
       }));
@@ -132,8 +113,6 @@ export class InvoiceShell implements OnInit {
   }
 
   private setupReactiveCalculations() {
-
-    // Auto-populate Vendor Name when Vendor ID is selected
     this.invoiceForm.get('header.vendorId')?.valueChanges.subscribe(vendorId => {
       this.dataService.getVendors().pipe(take(1)).subscribe(vendors => {
         const vendor = vendors.find(v => v.id === vendorId);
@@ -141,21 +120,17 @@ export class InvoiceShell implements OnInit {
       });
     });
 
-    // 1. Listen to Line Items (Updates Subtotal)
     this.lineItemsArray.valueChanges.subscribe(() => {
       const items = this.lineItemsArray.getRawValue();
       const subtotal = items.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
       this.invoiceForm.get('summary.subtotal')?.setValue(subtotal, { emitEvent: false });
 
-      // Keep the discount amount in sync if the subtotal changes
       const currentPercent = this.invoiceForm.get('summary.discountPercent')?.value || 0;
       const newDiscountAmt = subtotal * (currentPercent / 100);
       this.invoiceForm.get('summary.discountAmount')?.setValue(newDiscountAmt, { emitEvent: false });
-
       this.recalculateTotal();
     });
 
-    // 2. Bidirectional Discount: Typing PERCENT updates AMOUNT
     this.invoiceForm.get('summary.discountPercent')?.valueChanges.subscribe((percent) => {
       const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
       const amount = subtotal * ((percent || 0) / 100);
@@ -163,7 +138,6 @@ export class InvoiceShell implements OnInit {
       this.recalculateTotal();
     });
 
-    // 3. Bidirectional Discount: Typing AMOUNT updates PERCENT
     this.invoiceForm.get('summary.discountAmount')?.valueChanges.subscribe((amount) => {
       const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
       const percent = subtotal > 0 ? ((amount || 0) / subtotal) * 100 : 0;
@@ -171,36 +145,28 @@ export class InvoiceShell implements OnInit {
       this.recalculateTotal();
     });
 
-    // 4. Listen for manual typed edits to the tax field
     this.invoiceForm.get('summary.tax')?.valueChanges.subscribe(() => {
       this.recalculateTotal();
     });
 
-    // 5. Auto-calculate tax when the Tax Group dropdown changes
     this.invoiceForm.get('header.taxGroup')?.valueChanges.subscribe(() => {
       const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
       const discountAmount = this.invoiceForm.get('summary.discountAmount')?.value || 0;
       const taxGroup = this.invoiceForm.get('header.taxGroup')?.value;
-
       const taxRate = taxGroup === 'TAX01' ? 0.05 : 0;
-
-      // Setting this will automatically trigger the tax valueChanges listener above
       this.invoiceForm.get('summary.tax')?.setValue((subtotal - discountAmount) * taxRate);
     });
 
-    // 6. Listen to Expense edits
     this.invoiceForm.get('summary.totalExpense')?.valueChanges.subscribe(() => {
-      this.recalculateTotal(); // Update final total to include expense
-      this.distributeExpense(); // Distribute expense across line items
+      this.recalculateTotal();
+      this.distributeExpense();
     });
 
-    // Auto-update Exchange Rate when Currency changes
     this.invoiceForm.get('header.currency')?.valueChanges.subscribe(currencyCode => {
       if (currencyCode) {
         this.dataService.getCurrencies().pipe(take(1)).subscribe(currencies => {
           const selectedCurrency = currencies.find(c => c.code === currencyCode);
           if (selectedCurrency) {
-            // Update the form control with the new rate
             this.invoiceForm.get('header.exchangeRate')?.setValue(selectedCurrency.exchangeRate);
           }
         });
@@ -210,18 +176,12 @@ export class InvoiceShell implements OnInit {
 
   private recalculateTotal() {
     const subtotal = this.invoiceForm.get('summary.subtotal')?.value || 0;
-    // Read the directly typed/synced values instead of doing inline math
     const discountAmount = this.invoiceForm.get('summary.discountAmount')?.value || 0;
     const taxAmount = this.invoiceForm.get('summary.tax')?.value || 0;
     const totalExpense = this.invoiceForm.get('summary.totalExpense')?.value || 0;
 
-    // Grand total includes subtotal, subtracts discount, adds tax and adds total expense
     const total = subtotal - discountAmount + taxAmount + totalExpense;
-
-    this.invoiceForm.patchValue({
-      summary: { total }
-    }, { emitEvent: false });
-
+    this.invoiceForm.patchValue({ summary: { total } }, { emitEvent: false });
     this.distributeExpense();
   }
 
@@ -239,29 +199,63 @@ export class InvoiceShell implements OnInit {
       let expense = 0;
 
       if (index === controls.length - 1) {
-        // Last row gets the remainder to avoid rounding issues
         expense = totalExpense - distributed;
       } else {
         expense = Number(((amount / subtotal) * totalExpense).toFixed(2));
         distributed += expense;
       }
-
       ctrl.get('expense')?.setValue(Number(expense.toFixed(2)), { emitEvent: false });
     });
   }
 
   onSave() {
-    if (this.invoiceForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Form is invalid. Please complete required fields.' });
+    this.invoiceForm.markAllAsTouched();
+    this.invoiceForm.get('header.dueDate')?.setErrors(null);
+
+    if (this.lineItemsArray.length === 0) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'You must add at least one item to the invoice.' });
       return;
     }
 
-    const payload = this.invoiceForm.getRawValue();
-    this.dataService.saveInvoice(payload as unknown as Invoice).subscribe({
+    const dateStr = this.invoiceForm.get('header.date')?.value;
+    const dueDateStr = this.invoiceForm.get('header.dueDate')?.value;
+
+    if (dateStr && dueDateStr) {
+      const date = new Date(dateStr);
+      const dueDate = new Date(dueDateStr);
+
+      date.setHours(0, 0, 0, 0);
+      dueDate.setHours(0, 0, 0, 0);
+
+      if (dueDate < date) {
+        this.invoiceForm.get('header.dueDate')?.setErrors({ invalidDate: true });
+        this.messageService.add({ severity: 'error', summary: 'Invalid Date', detail: 'Due Date cannot be older than the Invoice Date.' });
+        return;
+      }
+    }
+
+    if (this.invoiceForm.invalid) {
+      this.messageService.add({ severity: 'error', summary: 'Incomplete', detail: 'Please fill in all required fields highlighted in red.' });
+      return;
+    }
+
+    const rawForm = this.invoiceForm.getRawValue();
+    const payload: Invoice = {
+      ...rawForm.header,
+      ...rawForm.summary,
+      date: new Date(rawForm.header.date as any).toISOString(),
+      dueDate: new Date(rawForm.header.dueDate as any).toISOString(),
+      note: rawForm.note,
+      lineItems: rawForm.lineItems
+    } as unknown as Invoice;
+
+    console.log('Saved Invoice JSON:', JSON.stringify(payload, null, 2));
+
+    this.dataService.saveInvoice(payload).subscribe({
       next: (res) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
       },
-      error: (err) => {
+      error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save invoice.' });
       }
     });
@@ -283,14 +277,9 @@ export class InvoiceShell implements OnInit {
       message: 'Are you sure you want to void this invoice? This will clear all items.',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        // Clear the table items
         this.lineItemsArray.clear();
-
-        // Optional: Show a toast letting them know it was cleared
         this.messageService.add({
-          severity: 'info',
-          summary: 'Voided',
-          detail: 'All line items have been removed.'
+          severity: 'info', summary: 'Voided', detail: 'All line items have been removed.'
         });
       }
     });
