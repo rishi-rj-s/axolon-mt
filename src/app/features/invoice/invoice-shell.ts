@@ -133,7 +133,7 @@ export class InvoiceShell implements OnInit {
 
   private setupReactiveCalculations() {
 
-    // NEW: Auto-populate Vendor Name when Vendor ID is selected
+    // Auto-populate Vendor Name when Vendor ID is selected
     this.invoiceForm.get('header.vendorId')?.valueChanges.subscribe(vendorId => {
       this.dataService.getVendors().pipe(take(1)).subscribe(vendors => {
         const vendor = vendors.find(v => v.id === vendorId);
@@ -192,6 +192,19 @@ export class InvoiceShell implements OnInit {
     this.invoiceForm.get('summary.totalExpense')?.valueChanges.subscribe(() => {
       this.recalculateTotal(); // Update final total to include expense
       this.distributeExpense(); // Distribute expense across line items
+    });
+
+    // Auto-update Exchange Rate when Currency changes
+    this.invoiceForm.get('header.currency')?.valueChanges.subscribe(currencyCode => {
+      if (currencyCode) {
+        this.dataService.getCurrencies().pipe(take(1)).subscribe(currencies => {
+          const selectedCurrency = currencies.find(c => c.code === currencyCode);
+          if (selectedCurrency) {
+            // Update the form control with the new rate
+            this.invoiceForm.get('header.exchangeRate')?.setValue(selectedCurrency.exchangeRate);
+          }
+        });
+      }
     });
   }
 
