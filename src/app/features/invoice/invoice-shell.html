@@ -1,5 +1,6 @@
-<p-toast></p-toast>
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-toast position="top-right" styleClass="erp-toast"></p-toast>
+<p-confirmDialog styleClass="erp-dialog" [style]="{width: '400px'}" acceptButtonStyleClass="erp-button-accept"
+  rejectButtonStyleClass="erp-button-reject"></p-confirmDialog>
 
 <div class="invoice-layout">
   <div class="toolbar-wrapper">
@@ -28,7 +29,7 @@
             </small>
           </div>
         </div>
-        
+
         <div class="summary-section">
           <!-- Passes the summary FormGroup slice down -->
           <app-invoice-summary [form]="invoiceForm.controls.summary"></app-invoice-summary>
@@ -39,6 +40,6 @@
   </div>
 
   <div class="actions-wrapper">
-    <app-invoice-actions (save)="onSave()" (clear)="onClear()"></app-invoice-actions>
+    <app-invoice-actions (save)="onSave()" (clear)="onClear()" (voidAction)="onVoid()"></app-invoice-actions>
   </div>
 </div>

@@ -10,22 +10,33 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  /* Tight gap between label and input */
 
   label {
     font-weight: 400;
     color: #000;
-    text-align: right;
-    width: 100px;
+    text-align: left;
+    /* Aligns text to the left */
+    width: 88px;
+    /* Tightly sized to fit "Total Expense:" to remove extra blank space */
+    white-space: nowrap;
   }
-  
+
   .blue-label {
     color: #0000cc;
   }
 }
 
+/* FIX: Forces ALL right-side boxes to be exactly 140px so they meet in a perfect vertical line */
+.value-box,
+.discount-inputs,
+.summary-row>.input-wrapper {
+  width: 140px !important;
+  flex: 0 0 140px !important;
+}
+
 .value-box {
-  width: 140px;
   height: 22px;
   border: 1px solid #a0a0a0;
   display: flex;
@@ -50,7 +61,7 @@
     border: 1px solid #a0a0a0;
     border-radius: 0;
     outline: none;
-    
+
     &:focus {
       border-color: #0000cc;
     }
@@ -61,11 +72,12 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  width: 140px;
 
   .percent-wrapper {
     flex: 0 0 42px;
-    
+    width: 42px !important;
+    /* Protects inner width */
+
     ::ng-deep .p-inputnumber-input {
       width: 42px;
     }
@@ -78,15 +90,13 @@
 
   .amount-wrapper {
     flex: 1;
-    
+    width: auto !important;
+    /* Allows flex to fill the remaining space inside the 140px */
+
     ::ng-deep .p-inputnumber-input {
       width: 100%;
     }
   }
-}
-
-.amount-wrapper.expense-wrapper {
-  width: 140px;
 }
 
 .highlight-expense {
@@ -96,12 +106,12 @@
 
 .total-row {
   margin-top: 2px;
-  
-  label { 
+
+  label {
     font-weight: bold;
     color: #000;
   }
-  
+
   .total-box {
     font-weight: bold;
   }

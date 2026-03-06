@@ -12,7 +12,8 @@
 
 .content-wrapper {
   flex: 1 1 auto;
-  overflow: hidden; /* Lock the external form so the grid handles scrolling natively inside */
+  overflow: hidden;
+  /* Lock the external form so the grid handles scrolling natively inside */
   padding: 8px;
   background: #fff;
   display: flex;
@@ -32,11 +33,201 @@
 
 .grid-section {
   flex: 1 1 auto;
-  min-height: 0; /* Let grid take remaining space rigorously to trigger internal table overflow */
+  min-height: 0;
+  /* Let grid take remaining space rigorously to trigger internal table overflow */
   border: 1px solid #ddd;
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
+}
+
+::ng-deep {
+
+  /* --- ERP TOAST STYLING --- */
+  .erp-toast {
+    width: 320px !important;
+    opacity: 1 !important;
+
+    .p-toast-message {
+      margin-bottom: 8px !important;
+      border-radius: 0 !important;
+      background: #ffffff !important;
+      border: 1px solid #7a9cd3 !important;
+      box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) !important;
+
+      .p-toast-message-content {
+        padding: 10px 12px !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        /* Forces space between icon and text */
+      }
+
+      /* STRICTLY contain the SVG/Icon so it doesn't blow up */
+      .p-toast-message-icon {
+        width: 20px !important;
+        height: 20px !important;
+        flex-shrink: 0 !important;
+        /* Prevents text from squashing the icon */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+
+        svg,
+        i {
+          width: 20px !important;
+          height: 20px !important;
+        }
+      }
+
+      .p-toast-message-text {
+        margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1 !important;
+        /* Allows text to take remaining space */
+      }
+
+      .p-toast-summary {
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
+        color: #000 !important;
+      }
+
+      .p-toast-detail {
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 11px !important;
+        color: #333 !important;
+        line-height: 1.3 !important;
+      }
+
+      .p-toast-icon-close {
+        width: 20px !important;
+        height: 20px !important;
+        border-radius: 0 !important;
+        color: #666 !important;
+
+        &:hover {
+          background: #e1e1e1 !important;
+        }
+      }
+
+      &.p-toast-message-success {
+        border-left: 5px solid #28a745 !important;
+      }
+
+      &.p-toast-message-error {
+        border-left: 5px solid #dc3545 !important;
+      }
+
+      &.p-toast-message-info {
+        border-left: 5px solid #0056b3 !important;
+      }
+    }
+  }
+
+  /* --- ERP CONFIRM DIALOG STYLING --- */
+  .erp-dialog {
+    border-radius: 0 !important;
+    border: 1px solid #7a9cd3 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+
+    /* Header & Title */
+    .p-dialog-header {
+      background: #e1e1e1 !important;
+      padding: 8px 12px !important;
+      border-bottom: 1px solid #ccc !important;
+      color: #333 !important;
+      font-size: 12px !important;
+      font-weight: bold !important;
+    }
+
+    /* Stronger selector to beat PrimeNG's default gray hover */
+    button.p-dialog-header-icon.p-dialog-header-close {
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 0 !important;
+      color: #333 !important;
+      background-color: transparent !important;
+      /* Reset default background */
+      border: 1px solid transparent !important;
+      transition: none !important;
+
+      &:hover,
+      &:focus {
+        background-color: #e81123 !important;
+        /* Classic Windows Red */
+        color: #ffffff !important;
+        outline: none !important;
+
+        /* Force SVGs to turn white using all possible SVG color properties */
+        svg,
+        i {
+          color: #ffffff !important;
+          fill: #ffffff !important;
+          stroke: #ffffff !important;
+        }
+      }
+    }
+
+    /* FIX: Icon and Text Overlap */
+    .p-dialog-content {
+      padding: 20px !important;
+      font-size: 12px !important;
+      color: #000 !important;
+      background: #fff !important;
+
+      /* Flexbox separates the warning triangle from the text */
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    /* Size the warning icon appropriately */
+    .p-confirm-dialog-icon {
+      font-size: 24px !important;
+      color: #f5a623 !important;
+      /* Warning Orange/Yellow */
+      display: flex;
+    }
+
+    .p-confirm-dialog-message {
+      line-height: 1.4 !important;
+      margin: 0 !important;
+    }
+
+    /* Footer & Buttons */
+    .p-dialog-footer {
+      background: #f0f0f0 !important;
+      padding: 8px !important;
+      border-top: 1px solid #ccc !important;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .p-button {
+      padding: 4px 16px !important;
+      font-size: 11px !important;
+      border-radius: 0 !important;
+      height: 24px !important;
+      border: 1px solid #999 !important;
+    }
+
+    .erp-button-accept {
+      background: #0056b3 !important;
+      color: white !important;
+      border-color: #004494 !important;
+    }
+
+    .erp-button-reject {
+      background: #e1e1e1 !important;
+      color: #333 !important;
+    }
+  }
 }
 
 ::ng-deep .grid-section app-invoice-line-items {
@@ -57,11 +248,11 @@
 }
 
 .notes-section {
-  flex: 1; 
+  flex: 1;
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  max-width: 600px; 
+  max-width: 600px;
 }
 
 /* New wrapper to act as an anchor for the absolute positioned counter */
@@ -75,23 +266,23 @@
   font-weight: 400;
   white-space: nowrap;
   margin-top: 2px;
-  font-size: 11px; 
+  font-size: 11px;
   font-family: Tahoma, Arial, sans-serif;
 }
 
 textarea#note {
-  width: 100%; 
+  width: 100%;
   border: 1px solid #7a9cd3;
   border-radius: 0;
-  height: 90px; 
+  height: 90px;
   outline: none;
-  resize: none !important; 
-  overflow-y: scroll !important; 
-  
+  resize: none !important;
+  overflow-y: scroll !important;
+
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
   /* Added extra bottom padding so text doesn't hide behind the counter */
-  padding: 2px 4px 16px 4px; 
+  padding: 2px 4px 16px 4px;
   color: #000;
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
@@ -105,11 +296,12 @@ textarea#note:focus {
   position: absolute;
   bottom: 4px;
   /* 20px accounts for the physical scrollbar width so it doesn't overlap it */
-  right: 20px; 
+  right: 20px;
   font-size: 10px;
   color: #666;
   font-family: Tahoma, Arial, sans-serif;
-  pointer-events: none; /* Ensures clicking the numbers clicks the textarea underneath */
+  pointer-events: none;
+  /* Ensures clicking the numbers clicks the textarea underneath */
 }
 
 .summary-section {

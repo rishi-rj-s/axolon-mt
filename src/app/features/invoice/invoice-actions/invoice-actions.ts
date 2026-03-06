@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class InvoiceActions {
   save = output<void>();
   clear = output<void>();
+  voidAction = output<void>();
   private router = inject(Router);
 
   onClose() {
