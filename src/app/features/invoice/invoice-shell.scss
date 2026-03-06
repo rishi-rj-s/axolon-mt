@@ -12,7 +12,8 @@
 
 .content-wrapper {
   flex: 1 1 auto;
-  overflow: hidden; /* Lock the external form so the grid handles scrolling natively inside */
+  overflow: hidden;
+  /* Lock the external form so the grid handles scrolling natively inside */
   padding: 8px;
   background: #fff;
   display: flex;
@@ -32,11 +33,147 @@
 
 .grid-section {
   flex: 1 1 auto;
-  min-height: 0; /* Let grid take remaining space rigorously to trigger internal table overflow */
+  min-height: 0;
+  /* Let grid take remaining space rigorously to trigger internal table overflow */
   border: 1px solid #ddd;
   margin-bottom: 8px;
   display: flex;
   flex-direction: column;
+}
+
+::ng-deep {
+
+  .erp-toast {
+    width: 320px !important;
+    /* Fixed width looks more like a desktop app */
+    opacity: 1 !important;
+
+    .p-toast-message {
+      margin-bottom: 8px !important;
+      border-radius: 0 !important;
+      /* Sharp corners */
+      background: #ffffff !important;
+      border: 1px solid #7a9cd3 !important;
+      /* Border color matching your input borders */
+      box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1) !important;
+      /* Hard shadow */
+
+      .p-toast-message-content {
+        padding: 8px !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+      }
+
+      /* Fix the Icon */
+      .p-toast-message-icon {
+        font-size: 16px !important;
+        width: 16px !important;
+        height: 16px !important;
+        margin-top: 2px;
+      }
+
+      /* Fix the Text Container */
+      .p-toast-message-text {
+        margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .p-toast-summary {
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: bold !important;
+        color: #000 !important;
+      }
+
+      .p-toast-detail {
+        font-family: Tahoma, Arial, sans-serif !important;
+        font-size: 11px !important;
+        color: #333 !important;
+        line-height: 1.2 !important;
+      }
+
+      /* Close Button Styling */
+      .p-toast-icon-close {
+        width: 16px !important;
+        height: 16px !important;
+        border-radius: 0 !important;
+        color: #666 !important;
+
+        &:hover {
+          background: #e1e1e1 !important;
+        }
+      }
+
+      /* Severity Side-Bars (ERP Style) */
+      &.p-toast-message-success {
+        border-left: 5px solid #28a745 !important;
+      }
+
+      &.p-toast-message-error {
+        border-left: 5px solid #dc3545 !important;
+      }
+
+      &.p-toast-message-info {
+        border-left: 5px solid #0056b3 !important;
+      }
+    }
+  }
+
+  /* --- ERP CONFIRM DIALOG STYLING --- */
+  .erp-dialog {
+    border-radius: 0 !important;
+    border: 1px solid #7a9cd3 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+
+    .p-dialog-header {
+      background: #e1e1e1 !important;
+      /* Classic gray header */
+      padding: 8px 12px !important;
+      border-bottom: 1px solid #ccc !important;
+      color: #333 !important;
+      font-size: 12px !important;
+      font-weight: bold !important;
+    }
+
+    .p-dialog-content {
+      padding: 20px !important;
+      font-size: 12px !important;
+      color: #000 !important;
+      background: #fff !important;
+    }
+
+    .p-dialog-footer {
+      background: #f0f0f0 !important;
+      padding: 8px !important;
+      border-top: 1px solid #ccc !important;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Buttons inside the dialog */
+    .p-button {
+      padding: 4px 12px !important;
+      font-size: 11px !important;
+      border-radius: 0 !important;
+      height: 24px !important;
+      border: 1px solid #999 !important;
+    }
+
+    .erp-button-accept {
+      background: #0056b3 !important;
+      color: white !important;
+      border-color: #004494 !important;
+    }
+
+    .erp-button-reject {
+      background: #e1e1e1 !important;
+      color: #333 !important;
+    }
+  }
 }
 
 ::ng-deep .grid-section app-invoice-line-items {
@@ -57,11 +194,11 @@
 }
 
 .notes-section {
-  flex: 1; 
+  flex: 1;
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  max-width: 600px; 
+  max-width: 600px;
 }
 
 /* New wrapper to act as an anchor for the absolute positioned counter */
@@ -75,23 +212,23 @@
   font-weight: 400;
   white-space: nowrap;
   margin-top: 2px;
-  font-size: 11px; 
+  font-size: 11px;
   font-family: Tahoma, Arial, sans-serif;
 }
 
 textarea#note {
-  width: 100%; 
+  width: 100%;
   border: 1px solid #7a9cd3;
   border-radius: 0;
-  height: 90px; 
+  height: 90px;
   outline: none;
-  resize: none !important; 
-  overflow-y: scroll !important; 
-  
+  resize: none !important;
+  overflow-y: scroll !important;
+
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
   /* Added extra bottom padding so text doesn't hide behind the counter */
-  padding: 2px 4px 16px 4px; 
+  padding: 2px 4px 16px 4px;
   color: #000;
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.05);
 }
@@ -105,11 +242,12 @@ textarea#note:focus {
   position: absolute;
   bottom: 4px;
   /* 20px accounts for the physical scrollbar width so it doesn't overlap it */
-  right: 20px; 
+  right: 20px;
   font-size: 10px;
   color: #666;
   font-family: Tahoma, Arial, sans-serif;
-  pointer-events: none; /* Ensures clicking the numbers clicks the textarea underneath */
+  pointer-events: none;
+  /* Ensures clicking the numbers clicks the textarea underneath */
 }
 
 .summary-section {
