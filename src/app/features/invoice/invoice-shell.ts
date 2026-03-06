@@ -6,8 +6,8 @@ import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TextareaModule } from 'primeng/textarea';
 import { Invoice } from '@models/invoice.model';
-
 import { take } from 'rxjs';
+
 import { InvoiceActions } from './invoice-actions/invoice-actions';
 import { InvoiceHeader } from './invoice-header/invoice-header';
 import { InvoiceLineItems } from './invoice-line-items/invoice-line-items';
@@ -18,15 +18,8 @@ import { InvoiceToolbar } from './invoice-toolbar/invoice-toolbar';
   selector: 'app-invoice-shell',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    ToastModule,
-    ConfirmDialogModule,
-    TextareaModule,
-    InvoiceHeader,
-    InvoiceLineItems,
-    InvoiceSummary,
-    InvoiceToolbar,
-    InvoiceActions
+    ReactiveFormsModule, ToastModule, ConfirmDialogModule, TextareaModule,
+    InvoiceHeader, InvoiceLineItems, InvoiceSummary, InvoiceToolbar, InvoiceActions
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './invoice-shell.html',
@@ -42,12 +35,12 @@ export class InvoiceShell implements OnInit {
   invoiceForm = this.fb.group({
     header: this.fb.group({
       docId: ['', Validators.required],
-      voucherNumber: ['', Validators.required], // FIX: Enabled and Required
+      voucherNumber: ['', Validators.required],
       date: [new Date(), Validators.required],
       vendorId: ['', Validators.required],
       vendorName: [{ value: '', disabled: true }],
-      reference: [''], // Optional
-      reference2: [''], // Optional
+      reference: [''],
+      reference2: [''],
       buyer: ['', Validators.required],
       shippingMethod: ['', Validators.required],
       paymentTerm: ['', Validators.required],
@@ -55,19 +48,19 @@ export class InvoiceShell implements OnInit {
       currency: ['', Validators.required],
       exchangeRate: [1, Validators.required],
       dueDate: [new Date(), Validators.required],
-      vendorRef: [''] // Optional
+      vendorRef: ['']
     }),
     lineItems: this.fb.array([], [Validators.required]),
     summary: this.fb.group({
       subtotal: [0],
-      discountPercent: [0], // Optional
-      discountAmount: [0], // Optional
+      discountPercent: [0],
+      discountAmount: [0],
       tax: [0],
-      totalExpense: [0], // Optional
+      totalExpense: [0],
       total: [0],
       status: ['DRAFT']
     }),
-    note: [''] // Optional
+    note: ['']
   });
 
   ngOnInit() {
@@ -216,19 +209,14 @@ export class InvoiceShell implements OnInit {
   }
 
   onSave() {
-    // 1. Touch all fields to trigger the red outlines on empty required fields
     this.invoiceForm.markAllAsTouched();
-
-    // 2. Clear any manual errors from previous attempts
     this.invoiceForm.get('header.dueDate')?.setErrors(null);
 
-    // 3. Ensure at least one line item exists
     if (this.lineItemsArray.length === 0) {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'You must add at least one item to the invoice.' });
       return;
     }
 
-    // 4. Validate Due Date vs Invoice Date
     const dateStr = this.invoiceForm.get('header.date')?.value;
     const dueDateStr = this.invoiceForm.get('header.dueDate')?.value;
 
@@ -236,7 +224,6 @@ export class InvoiceShell implements OnInit {
       const date = new Date(dateStr);
       const dueDate = new Date(dueDateStr);
 
-      // Reset hours to compare purely by calendar day
       date.setHours(0, 0, 0, 0);
       dueDate.setHours(0, 0, 0, 0);
 
@@ -247,13 +234,11 @@ export class InvoiceShell implements OnInit {
       }
     }
 
-    // 5. Final Form Check
     if (this.invoiceForm.invalid) {
       this.messageService.add({ severity: 'error', summary: 'Incomplete', detail: 'Please fill in all required fields highlighted in red.' });
       return;
     }
 
-    // 6. Build the Final JSON
     const rawForm = this.invoiceForm.getRawValue();
     const payload: Invoice = {
       ...rawForm.header,
@@ -264,13 +249,13 @@ export class InvoiceShell implements OnInit {
       lineItems: rawForm.lineItems
     } as unknown as Invoice;
 
-    console.log('Final Verified Payload:', JSON.stringify(payload, null, 2));
+    console.log('Saved Invoice JSON:', JSON.stringify(payload, null, 2));
 
     this.dataService.saveInvoice(payload).subscribe({
       next: (res) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
       },
-      error: (err) => {
+      error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to save invoice.' });
       }
     });

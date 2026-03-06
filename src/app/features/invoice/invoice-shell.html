@@ -10,12 +10,10 @@
   <div class="content-wrapper">
     <form [formGroup]="invoiceForm" class="invoice-form">
       <div class="header-section">
-        <!-- Passes the header FormGroup slice down -->
         <app-invoice-header [form]="invoiceForm.controls.header"></app-invoice-header>
       </div>
 
       <div class="grid-section">
-        <!-- Passes the lineItems FormArray slice down -->
         <app-invoice-line-items [items]="invoiceForm.controls.lineItems"></app-invoice-line-items>
       </div>
 
@@ -31,7 +29,6 @@
         </div>
 
         <div class="summary-section">
-          <!-- Passes the summary FormGroup slice down -->
           <app-invoice-summary [form]="invoiceForm.controls.summary"></app-invoice-summary>
         </div>
       </div>

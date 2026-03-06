@@ -65,7 +65,5 @@ export class MockDataService {
       status: 200,
       message: 'Invoice IMPI00001 saved successfully!'
     }).pipe(delay(500));
-    // In actual use, this calls the backend for saving the invoice
-    // return this.http.post('http://url:port/save', invoice);
   }
 }

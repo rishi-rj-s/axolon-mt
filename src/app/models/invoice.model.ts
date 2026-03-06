@@ -6,13 +6,13 @@ export interface LineItem {
   quantity: number;
   price: number;
   amount: number;
-  expense: number; // Read-only, proportionally allocated
+  expense: number;
 }
 
 export interface Invoice {
   docId: string;
   voucherNumber: string;
-  date: string; // ISO date string
+  date: string; 
   vendorId: string;
   vendorName: string;
   reference: string;
@@ -23,7 +23,7 @@ export interface Invoice {
   taxGroup: string;
   currency: string;
   exchangeRate: number;
-  dueDate: string; // ISO date string
+  dueDate: string; 
   vendorRef: string;
   note: string;
   lineItems: LineItem[];
@@ -31,7 +31,7 @@ export interface Invoice {
   discountPercent: number;
   discountAmount: number;
   tax: number;
-  totalExpense: number; // Distributes proportionately to line items
+  totalExpense: number;
   total: number;
   status: string;
 }
@@ -54,7 +54,7 @@ export interface Item {
 export interface TaxGroup {
   code: string;
   name: string;
-  rate: number; // e.g., 0.05 for 5%
+  rate: number;
 }
 
 export interface Currency {
