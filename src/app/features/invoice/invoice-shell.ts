@@ -132,7 +132,7 @@ export class InvoiceShell implements OnInit {
   }
 
   private setupReactiveCalculations() {
-    
+
     // NEW: Auto-populate Vendor Name when Vendor ID is selected
     this.invoiceForm.get('header.vendorId')?.valueChanges.subscribe(vendorId => {
       this.dataService.getVendors().pipe(take(1)).subscribe(vendors => {
@@ -146,7 +146,7 @@ export class InvoiceShell implements OnInit {
       const items = this.lineItemsArray.getRawValue();
       const subtotal = items.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
       this.invoiceForm.get('summary.subtotal')?.setValue(subtotal, { emitEvent: false });
-      
+
       // Keep the discount amount in sync if the subtotal changes
       const currentPercent = this.invoiceForm.get('summary.discountPercent')?.value || 0;
       const newDiscountAmt = subtotal * (currentPercent / 100);
@@ -206,7 +206,7 @@ export class InvoiceShell implements OnInit {
     const total = subtotal - discountAmount + taxAmount + totalExpense;
 
     this.invoiceForm.patchValue({
-      summary: { total } 
+      summary: { total }
     }, { emitEvent: false });
 
     this.distributeExpense();
@@ -260,6 +260,25 @@ export class InvoiceShell implements OnInit {
       accept: () => {
         this.invoiceForm.reset();
         this.lineItemsArray.clear();
+      }
+    });
+  }
+
+  onVoid() {
+    this.confirmationService.confirm({
+      header: 'Confirm Void',
+      message: 'Are you sure you want to void this invoice? This will clear all items.',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        // Clear the table items
+        this.lineItemsArray.clear();
+
+        // Optional: Show a toast letting them know it was cleared
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Voided',
+          detail: 'All line items have been removed.'
+        });
       }
     });
   }

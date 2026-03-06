@@ -3,7 +3,7 @@
     <p-button label="Save" icon="pi pi-save" (click)="save.emit()" severity="success" class="action-button"></p-button>
     <p-button label="Clear" icon="pi pi-file-excel" (click)="clear.emit()" [outlined]="true" severity="secondary"
       class="action-button"></p-button>
-    <p-button label="Void" icon="pi pi-times-circle" [outlined]="true" severity="secondary" [disabled]="true"
+    <p-button label="Void" icon="pi pi-times-circle" [outlined]="true" severity="secondary" (click)="voidAction.emit()"
       class="action-button"></p-button>
   </div>
 
