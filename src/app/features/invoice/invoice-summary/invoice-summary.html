@@ -1,43 +1,47 @@
 <div class="summary-card" [formGroup]="form()">
+
   <div class="summary-row">
-    <label>Subtotal:</label>
-    <div class="value-box">{{ form().get('subtotal')?.value | number:'1.2-2' }}</div>
+    <span class="mock-label">Subtotal:</span>
+    <div id="subtotal" class="value-box">{{ form().get('subtotal')?.value | number:'1.2-2' }}</div>
   </div>
 
   <div class="summary-row">
-    <label>Discount:</label>
+    <label for="discountPercent">Discount:</label>
     <div class="discount-inputs">
       <div class="input-wrapper percent-wrapper">
-        <p-inputNumber formControlName="discountPercent" [min]="0" [max]="100" [maxFractionDigits]="2"
-          (onFocus)="onFocusInput('discountPercent')" (onBlur)="onBlurInput('discountPercent')"></p-inputNumber>
+        <p-inputNumber inputId="discountPercent" name="discountPercent" formControlName="discountPercent" [min]="0"
+          [max]="100" [maxFractionDigits]="2" (onFocus)="onFocusInput('discountPercent')"
+          (onBlur)="onBlurInput('discountPercent')"></p-inputNumber>
       </div>
       <span class="percent-sign">%</span>
       <div class="input-wrapper amount-wrapper">
-        <p-inputNumber formControlName="discountAmount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
-          (onFocus)="onFocusInput('discountAmount')" (onBlur)="onBlurInput('discountAmount')"></p-inputNumber>
+        <p-inputNumber inputId="discountAmount" name="discountAmount" formControlName="discountAmount" mode="decimal"
+          [minFractionDigits]="2" [maxFractionDigits]="2" (onFocus)="onFocusInput('discountAmount')"
+          (onBlur)="onBlurInput('discountAmount')"></p-inputNumber>
       </div>
     </div>
   </div>
 
   <div class="summary-row">
-    <label class="blue-label">Tax:</label>
+    <label class="blue-label" for="tax">Tax:</label>
     <div class="input-wrapper amount-wrapper">
-      <p-inputNumber formControlName="tax" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
-        (onFocus)="onFocusInput('tax')" (onBlur)="onBlurInput('tax')"></p-inputNumber>
+      <p-inputNumber inputId="tax" name="tax" formControlName="tax" mode="decimal" [minFractionDigits]="2"
+        [maxFractionDigits]="2" (onFocus)="onFocusInput('tax')" (onBlur)="onBlurInput('tax')"></p-inputNumber>
     </div>
   </div>
 
-  <!-- New Feature: Total Expense Input -->
   <div class="summary-row highlight-expense">
-    <label>Total Expense:</label>
+    <label for="totalExpense">Total Expense:</label>
     <div class="input-wrapper amount-wrapper expense-wrapper">
-      <p-inputNumber formControlName="totalExpense" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2"
-        (onFocus)="onFocusInput('totalExpense')" (onBlur)="onBlurInput('totalExpense')"></p-inputNumber>
+      <p-inputNumber inputId="totalExpense" name="totalExpense" formControlName="totalExpense" mode="decimal"
+        [minFractionDigits]="2" [maxFractionDigits]="2" (onFocus)="onFocusInput('totalExpense')"
+        (onBlur)="onBlurInput('totalExpense')"></p-inputNumber>
     </div>
   </div>
 
   <div class="summary-row total-row">
-    <label>Total:</label>
-    <div class="value-box total-box">{{ form().get('total')?.value | number:'1.2-2' }}</div>
+    <span class="mock-label">Total:</span>
+    <div id="total" class="value-box total-box">{{ form().get('total')?.value | number:'1.2-2' }}</div>
   </div>
+
 </div>

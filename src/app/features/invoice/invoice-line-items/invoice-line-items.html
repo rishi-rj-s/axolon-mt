@@ -1,32 +1,34 @@
 <div class="line-items-container">
-  <p-table #dt
-    [value]="tableData"
-    dataKey="value.rowNumber"
-    styleClass="excel-table">
-    
+  <p-table #dt [value]="tableData" dataKey="value.rowNumber" styleClass="excel-table">
+
     <ng-template pTemplate="header">
       <tr>
         <th class="row-header-th" style="width: 30px"></th>
         <th class="item-name-header" style="width: 150px; cursor: pointer;" (click)="toggleSort('value.itemCode')">
-          <div class="header-content"><span>Item Code</span> <i class="pi" [ngClass]="getSortIcon('value.itemCode')"></i></div>
+          <div class="header-content"><span>Item Code</span> <i class="pi"
+              [ngClass]="getSortIcon('value.itemCode')"></i></div>
         </th>
         <th style="cursor: pointer;" (click)="toggleSort('value.description')">
-          <div class="header-content"><span>Description</span> <i class="pi" [ngClass]="getSortIcon('value.description')"></i></div>
+          <div class="header-content"><span>Description</span> <i class="pi"
+              [ngClass]="getSortIcon('value.description')"></i></div>
         </th>
         <th style="width: 60px; cursor: pointer;" (click)="toggleSort('value.unit')">
           <div class="header-content"><span>Unit</span> <i class="pi" [ngClass]="getSortIcon('value.unit')"></i></div>
         </th>
         <th style="width: 100px; cursor: pointer;" (click)="toggleSort('value.quantity')">
-          <div class="header-content"><span>Quantity</span> <i class="pi" [ngClass]="getSortIcon('value.quantity')"></i></div>
+          <div class="header-content"><span>Quantity</span> <i class="pi" [ngClass]="getSortIcon('value.quantity')"></i>
+          </div>
         </th>
         <th style="width: 130px; cursor: pointer;" (click)="toggleSort('value.price')">
           <div class="header-content"><span>Price</span> <i class="pi" [ngClass]="getSortIcon('value.price')"></i></div>
         </th>
         <th style="width: 160px; cursor: pointer;" (click)="toggleSort('value.amount')">
-          <div class="header-content"><span>Amount</span> <i class="pi" [ngClass]="getSortIcon('value.amount')"></i></div>
+          <div class="header-content"><span>Amount</span> <i class="pi" [ngClass]="getSortIcon('value.amount')"></i>
+          </div>
         </th>
         <th style="width: 160px; cursor: pointer;" (click)="toggleSort('value.expense')">
-          <div class="header-content"><span>Expense</span> <i class="pi" [ngClass]="getSortIcon('value.expense')"></i></div>
+          <div class="header-content"><span>Expense</span> <i class="pi" [ngClass]="getSortIcon('value.expense')"></i>
+          </div>
         </th>
         <th class="action-header" style="width: 30px;"></th>
       </tr>
@@ -35,70 +37,52 @@
     <ng-template pTemplate="body" let-control let-i="rowIndex">
       <tr [formGroup]="control">
         <td class="row-header">{{ i + 1 }}</td>
-        
+
         <td class="cell-wrapper">
-          <input pInputText type="text" formControlName="itemCode" class="cell-input" (change)="onItemCodeChange($event, i)" />
+          <input pInputText type="text" formControlName="itemCode" class="cell-input" [id]="'itemCode_' + i"
+            [name]="'itemCode_' + i" (change)="onItemCodeChange($event, i)" />
         </td>
 
         <td class="cell-wrapper">
-          <input pInputText type="text" formControlName="description" class="cell-input" />
+          <input pInputText type="text" formControlName="description" class="cell-input" [id]="'description_' + i"
+            [name]="'description_' + i" />
         </td>
 
         <td class="cell-wrapper">
-          <input pInputText type="text" formControlName="unit" class="cell-input" />
+          <input pInputText type="text" formControlName="unit" class="cell-input" [id]="'unit_' + i"
+            [name]="'unit_' + i" />
         </td>
 
         <td class="cell-wrapper">
-          <p-inputNumber 
-            inputId="quantity" 
-            formControlName="quantity" 
-            mode="decimal" 
-            [minFractionDigits]="0" 
-            [maxFractionDigits]="2"
-            styleClass="cell-input-number text-right"
-            (onFocus)="onFocusInput('quantity', i)"
-            (onBlur)="onBlurInput('quantity', i)"
+          <p-inputNumber [inputId]="'quantity_' + i" name="quantity_{{i}}" formControlName="quantity" mode="decimal"
+            [minFractionDigits]="0" [maxFractionDigits]="2" styleClass="cell-input-number text-right"
+            (onFocus)="onFocusInput('quantity', i)" (onBlur)="onBlurInput('quantity', i)"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
         <td class="cell-wrapper">
-          <p-inputNumber 
-            inputId="price" 
-            formControlName="price" 
-            mode="decimal" 
-            [minFractionDigits]="2" 
-            [maxFractionDigits]="2"
-            styleClass="cell-input-number text-right"
-            (onFocus)="onFocusInput('price', i)"
-            (onBlur)="onBlurInput('price', i)"
+          <p-inputNumber [inputId]="'price_' + i" name="price_{{i}}" formControlName="price" mode="decimal"
+            [minFractionDigits]="2" [maxFractionDigits]="2" styleClass="cell-input-number text-right"
+            (onFocus)="onFocusInput('price', i)" (onBlur)="onBlurInput('price', i)"
             (onInput)="updateAmount(i)"></p-inputNumber>
         </td>
 
         <td class="cell-wrapper">
-          <p-inputNumber 
-            inputId="amount" 
-            formControlName="amount" 
-            mode="decimal" 
-            [minFractionDigits]="2" 
-            [maxFractionDigits]="2"
-            [readonly]="true"
+          <p-inputNumber [inputId]="'amount_' + i" name="amount_{{i}}" formControlName="amount" mode="decimal"
+            [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="true"
             styleClass="cell-input-number text-right readonly-cell"></p-inputNumber>
         </td>
 
         <td class="cell-wrapper">
           <div class="expense-container">
-            <p-inputNumber 
-              inputId="expense" 
-              formControlName="expense" 
-              mode="decimal" 
-              [minFractionDigits]="2" 
-              [maxFractionDigits]="2"
-              [readonly]="true"
+            <p-inputNumber [inputId]="'expense_' + i" name="expense_{{i}}" formControlName="expense" mode="decimal"
+              [minFractionDigits]="2" [maxFractionDigits]="2" [readonly]="true"
               styleClass="cell-input-number text-right readonly-cell expense-field"></p-inputNumber>
           </div>
         </td>
         <td class="cell-wrapper action-cell">
-          <button class="row-delete-btn-static" (click)="onRemoveRow(i)" title="Delete Row"><i class="pi pi-trash"></i></button>
+          <button class="row-delete-btn-static" (click)="onRemoveRow(i)" title="Delete Row"><i
+              class="pi pi-trash"></i></button>
         </td>
       </tr>
     </ng-template>
@@ -107,7 +91,8 @@
       <tr class="add-row-tr" (click)="onAddRow()">
         <td class="row-header" style="cursor: pointer;">+</td>
         <td class="cell-wrapper" style="position: relative;">
-          <div class="add-row-label" style="position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; white-space: nowrap; z-index: 10; background: transparent;">
+          <div class="add-row-label"
+            style="position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; white-space: nowrap; z-index: 10; background: transparent;">
             * Click Here to Add a New Row
           </div>
         </td>
@@ -120,17 +105,17 @@
         <td class="cell-wrapper"></td>
       </tr>
       @for (emptyRow of emptyGridRows; track $index) {
-        <tr class="empty-grid-row">
-          <td class="row-header"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-          <td class="cell-wrapper"></td>
-        </tr>
+      <tr class="empty-grid-row">
+        <td class="row-header"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+        <td class="cell-wrapper"></td>
+      </tr>
       }
 
       <tr class="totals-row-sticky">
